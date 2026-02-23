@@ -1,0 +1,25 @@
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  font-family: 'Orbitron';
+  font-weight: 900;
+  font-size: 14px;
+  color: var(--cyan);
+  letter-spacing: 4px;
+  opacity: 0.6;
+}
+
+.copy {
+  font-family: 'Share Tech Mono';
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+}
