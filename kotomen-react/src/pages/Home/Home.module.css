@@ -131,6 +131,324 @@
 
 .radarCanvas { display: block; margin: 0 auto; }
 
+/* ============================== */
+/* ===== SKILLS DASHBOARD ======= */
+/* ============================== */
+.skills {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 120px 40px 80px;
+  position: relative;
+}
+
+.skillsGlowLine {
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), transparent);
+  margin: 12px auto 48px;
+  box-shadow: 0 0 12px var(--cyan), 0 0 24px rgba(0,229,255,0.2);
+}
+
+.skillsLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  align-items: start;
+}
+
+/* ---- LEFT: Radar + tech ---- */
+.skillsLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.skillsRadarWrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.skillsRadarWrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 40%, rgba(0,229,255,0.04), transparent 70%);
+  pointer-events: none;
+}
+
+.skillsRadarHeader {
+  font-family: 'Share Tech Mono';
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  align-self: flex-end;
+  margin-bottom: 8px;
+}
+
+.skillsRadarCanvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* Tech chips */
+.techChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 20px 24px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+}
+
+.techChip {
+  font-family: 'Share Tech Mono';
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  border: 1px solid rgba(0,229,255,0.2);
+  color: var(--text-dim);
+  background: rgba(0,229,255,0.03);
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
+  cursor: none;
+}
+.techChip:hover {
+  border-color: rgba(0,229,255,0.5);
+  color: var(--cyan);
+  background: rgba(0,229,255,0.08);
+  box-shadow: 0 0 12px rgba(0,229,255,0.1);
+}
+
+/* Tech progress bars */
+.techBars {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+}
+
+.techBarRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.techBarLabel {
+  font-family: 'Share Tech Mono';
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  width: 130px;
+  flex-shrink: 0;
+}
+
+.techBarTrack {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.techBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan), rgba(0,229,255,0.4));
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(0,229,255,0.3);
+}
+
+/* ---- RIGHT: Kanban ---- */
+.skillsRight {
+  display: flex;
+  flex-direction: column;
+}
+
+.kanbanPanel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.kanbanHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.kanbanTitle {
+  font-family: 'Share Tech Mono';
+  font-size: 10px;
+  color: var(--cyan);
+  letter-spacing: 2px;
+}
+
+.kanbanFilters {
+  display: flex;
+  gap: 4px;
+}
+
+.kanbanFilterBtn {
+  font-family: 'Share Tech Mono';
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: none;
+  transition: all 0.2s;
+}
+.kanbanFilterBtn:hover {
+  border-color: rgba(0,229,255,0.4);
+  color: var(--cyan);
+}
+.kanbanFilterActive {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: rgba(0,229,255,0.08);
+  box-shadow: 0 0 8px rgba(0,229,255,0.15);
+}
+
+/* Kanban body */
+.kanbanBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 620px;
+}
+
+.kanbanCard {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 18px;
+  cursor: none;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.kanbanCard:hover {
+  border-color: rgba(0,229,255,0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,229,255,0.06);
+}
+
+.kanbanCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.kanbanCardLabel {
+  font-family: 'Share Tech Mono';
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.kanbanCardStatus {
+  font-family: 'Share Tech Mono';
+  font-size: 8px;
+  letter-spacing: 2px;
+  padding: 3px 8px;
+  border: 1px solid;
+}
+
+.colTodo {
+  border-color: rgba(201,209,217,0.2);
+  color: var(--text-dim);
+  background: rgba(201,209,217,0.04);
+}
+.colProgress {
+  border-color: rgba(240,136,62,0.4);
+  color: var(--orange);
+  background: rgba(240,136,62,0.08);
+}
+.colDone {
+  border-color: rgba(57,211,83,0.4);
+  color: var(--green);
+  background: rgba(57,211,83,0.08);
+}
+
+.kanbanCardTitle {
+  font-family: 'Rajdhani';
+  font-weight: 600;
+  font-size: 15px;
+  color: #fff;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.kanbanCardDesc {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+/* Progress bar inside card */
+.kanbanProgress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.kanbanProgressTrack {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.kanbanProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--orange), rgba(240,136,62,0.5));
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+.kanbanProgressPct {
+  font-family: 'Share Tech Mono';
+  font-size: 9px;
+  color: var(--orange);
+  letter-spacing: 1px;
+  min-width: 28px;
+}
+
+.kanbanCardTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.kanbanTag {
+  font-family: 'Share Tech Mono';
+  font-size: 9px;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  background: rgba(0,229,255,0.02);
+}
+
 /* ===== ROLES ===== */
 .roles {
   max-width: 1400px;
@@ -314,123 +632,6 @@
   line-height: 1.6;
 }
 
-/* ===== PROJECTS KANBAN ===== */
-.projects {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 80px 40px;
-}
-
-.projectsBoard {
-  margin-top: 40px;
-  border: 1px solid var(--border);
-  position: relative;
-}
-.projectsBoard::before {
-  content: 'PROJECTS.kanban';
-  font-family: 'Share Tech Mono';
-  font-size: 10px;
-  color: var(--cyan);
-  position: absolute;
-  top: -1px; left: 24px;
-  background: var(--bg);
-  padding: 0 8px;
-  transform: translateY(-50%);
-  letter-spacing: 2px;
-}
-
-.boardHeader {
-  display: flex;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg2);
-}
-
-.boardColTitle {
-  flex: 1;
-  padding: 16px 24px;
-  font-family: 'Share Tech Mono';
-  font-size: 10px;
-  color: var(--text-dim);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border-right: 1px solid var(--border);
-}
-.boardColTitle:last-child { border-right: none; }
-
-.colDot {
-  display: inline-block;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
-.boardBody {
-  display: flex;
-  min-height: 280px;
-}
-
-.boardCol {
-  flex: 1;
-  padding: 20px;
-  border-right: 1px solid var(--border);
-}
-.boardCol:last-child { border-right: none; }
-
-.projectCard {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 16px;
-  margin-bottom: 12px;
-  cursor: none;
-  transition: border-color 0.2s, transform 0.2s;
-  position: relative;
-}
-.projectCard:hover {
-  border-color: var(--cyan);
-  transform: translateY(-2px);
-}
-
-.projectCardLabel {
-  font-family: 'Share Tech Mono';
-  font-size: 9px;
-  color: var(--text-dim);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.projectCardTitle {
-  font-family: 'Rajdhani';
-  font-weight: 600;
-  font-size: 15px;
-  color: #fff;
-  margin-bottom: 8px;
-}
-
-.projectCardMetric {
-  font-family: 'Share Tech Mono';
-  font-size: 10px;
-  color: var(--cyan);
-}
-
-.projectTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 10px;
-}
-
-.ptag {
-  font-family: 'Share Tech Mono';
-  font-size: 9px;
-  padding: 2px 6px;
-  background: var(--cyan-glow2);
-  border: 1px solid var(--border);
-  color: var(--text-dim);
-  letter-spacing: 1px;
-}
-
 /* ===== CONTACT ===== */
 .contact {
   max-width: 1400px;
@@ -572,14 +773,20 @@
   text-transform: uppercase;
 }
 
-/* RESPONSIVE */
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1100px) {
+  .skillsLayout { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 900px) {
   .hero { flex-direction: column; padding: 100px 20px 40px; gap: 40px; }
   .heroRight { flex: none; width: 100%; }
+  .skills { padding: 80px 20px 60px; }
+  .skillsLayout { grid-template-columns: 1fr; }
+  .techBarLabel { width: 100px; font-size: 9px; }
+  .kanbanFilters { flex-wrap: wrap; }
   .rolesGrid { grid-template-columns: 1fr; }
   .contactGrid { grid-template-columns: 1fr; }
-  .roles, .flow, .projects, .contact { padding: 60px 20px; }
+  .roles, .flow, .contact { padding: 60px 20px; }
   .flowSteps { gap: 0; }
-  .boardBody { flex-direction: column; }
-  .boardCol { border-right: none; border-bottom: 1px solid var(--border); }
 }

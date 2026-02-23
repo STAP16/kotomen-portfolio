@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import SectionHeader from '../../components/SectionHeader/SectionHeader';
 import CornerDecorations from '../../components/CornerDecorations/CornerDecorations';
 import s from './Home.module.css';
@@ -14,6 +15,16 @@ const cardVariants = {
   visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.07, duration: 0.5 } }),
 };
 
+/* ===== RADAR CHART ===== */
+const skillsData = [
+  { label: 'Frontend', value: 0.70 },
+  { label: 'Backend', value: 0.63 },
+  { label: 'DevOps', value: 0.25 },
+  { label: 'Design', value: 0.46 },
+  { label: 'AI Tools', value: 0.78 },
+  { label: 'Product', value: 0.70 },
+];
+
 function RadarChart() {
   const canvasRef = useRef(null);
   const animProgress = useRef(0);
@@ -21,21 +32,23 @@ function RadarChart() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const cx = 160, cy = 160, r = 120;
-    const skills = [
-      { label: 'Frontend', value: 0.9 },
-      { label: 'Backend', value: 0.85 },
-      { label: 'DevOps', value: 0.7 },
-      { label: 'UI/UX', value: 0.8 },
-      { label: 'AI Tools', value: 0.9 },
-      { label: 'Product', value: 0.75 },
-    ];
-    const n = skills.length;
+    const dpr = window.devicePixelRatio || 1;
+    const size = 420;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    canvas.style.width = size + 'px';
+    canvas.style.height = size + 'px';
+    ctx.scale(dpr, dpr);
+
+    const cx = size / 2, cy = size / 2, r = 160;
+    const n = skillsData.length;
     const angleStep = (Math.PI * 2) / n;
     const startAngle = -Math.PI / 2;
 
     function draw(progress) {
-      ctx.clearRect(0, 0, 320, 320);
+      ctx.clearRect(0, 0, size, size);
+
+      // grid rings
       for (let ring = 1; ring <= 4; ring++) {
         ctx.beginPath();
         for (let i = 0; i <= n; i++) {
@@ -45,21 +58,25 @@ function RadarChart() {
           const y = cy + rr * Math.sin(angle);
           i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
         }
-        ctx.strokeStyle = 'rgba(0,229,255,0.1)';
+        ctx.strokeStyle = 'rgba(0,229,255,0.08)';
         ctx.lineWidth = 1;
         ctx.stroke();
       }
-      skills.forEach((_, i) => {
+
+      // axis lines
+      skillsData.forEach((_, i) => {
         const angle = startAngle + i * angleStep;
         ctx.beginPath();
         ctx.moveTo(cx, cy);
         ctx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
-        ctx.strokeStyle = 'rgba(0,229,255,0.15)';
+        ctx.strokeStyle = 'rgba(0,229,255,0.12)';
         ctx.lineWidth = 1;
         ctx.stroke();
       });
+
+      // filled polygon
       ctx.beginPath();
-      skills.forEach((skill, i) => {
+      skillsData.forEach((skill, i) => {
         const angle = startAngle + i * angleStep;
         const val = skill.value * progress;
         const x = cx + r * val * Math.cos(angle);
@@ -67,42 +84,51 @@ function RadarChart() {
         i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       });
       ctx.closePath();
-      ctx.fillStyle = 'rgba(0,229,255,0.12)';
+      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      grad.addColorStop(0, 'rgba(0,229,255,0.20)');
+      grad.addColorStop(1, 'rgba(0,229,255,0.04)');
+      ctx.fillStyle = grad;
       ctx.fill();
-      ctx.strokeStyle = 'rgba(0,229,255,0.8)';
+      ctx.strokeStyle = 'rgba(0,229,255,0.7)';
       ctx.lineWidth = 1.5;
       ctx.stroke();
-      skills.forEach((skill, i) => {
+
+      // dots + labels
+      skillsData.forEach((skill, i) => {
         const angle = startAngle + i * angleStep;
         const val = skill.value * progress;
         const x = cx + r * val * Math.cos(angle);
         const y = cy + r * val * Math.sin(angle);
+
+        // glow dot
         ctx.beginPath();
-        ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
         ctx.fillStyle = '#00e5ff';
-        ctx.fill();
         ctx.shadowColor = '#00e5ff';
-        ctx.shadowBlur = 8;
+        ctx.shadowBlur = 12;
         ctx.fill();
         ctx.shadowBlur = 0;
-        const lx = cx + (r + 24) * Math.cos(angle);
-        const ly = cy + (r + 24) * Math.sin(angle);
-        ctx.font = '10px Share Tech Mono';
-        ctx.fillStyle = 'rgba(0,229,255,0.7)';
+
+        // label
+        const lx = cx + (r + 28) * Math.cos(angle);
+        const ly = cy + (r + 28) * Math.sin(angle);
+        ctx.font = '11px Share Tech Mono';
+        ctx.fillStyle = 'rgba(0,229,255,0.8)';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(skill.label.toUpperCase(), lx, ly);
+
         const pct = Math.round(skill.value * 100 * progress);
-        ctx.font = '8px Share Tech Mono';
-        ctx.fillStyle = 'rgba(201,209,217,0.5)';
-        ctx.fillText(pct + '%', lx, ly + 12);
+        ctx.font = '9px Share Tech Mono';
+        ctx.fillStyle = 'rgba(201,209,217,0.45)';
+        ctx.fillText(pct + '%', lx, ly + 14);
       });
     }
 
     let rafId;
     function animate() {
       if (animProgress.current < 1) {
-        animProgress.current += 0.02;
+        animProgress.current += 0.015;
         draw(Math.min(animProgress.current, 1));
         rafId = requestAnimationFrame(animate);
       }
@@ -110,7 +136,7 @@ function RadarChart() {
 
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && animProgress.current === 0) {
-        setTimeout(animate, 600);
+        setTimeout(animate, 400);
       }
     });
     observer.observe(canvas);
@@ -118,9 +144,37 @@ function RadarChart() {
     return () => { observer.disconnect(); cancelAnimationFrame(rafId); };
   }, []);
 
-  return <canvas ref={canvasRef} className={s.radarCanvas} width={320} height={320} />;
+  return <canvas ref={canvasRef} className={s.skillsRadarCanvas} />;
 }
 
+/* ===== SKILLS DATA ===== */
+const techChips = ['React', 'Next.js', 'FastAPI', 'PostgreSQL', 'Docker', 'CI/CD', 'Figma'];
+
+const techBars = [
+  { name: 'React / Next.js', level: 0.70 },
+  { name: 'FastAPI / Python', level: 0.63 },
+  { name: 'Figma / UI', level: 0.46 },
+  { name: 'Docker / Linux', level: 0.25 },
+  { name: 'AI Tooling', level: 0.78 },
+];
+
+const kanbanCards = [
+  { id: 1, col: 'todo', label: 'Landing · Design', title: 'Лендинг для EdTech-стартапа', desc: 'Дизайн + прототип в Figma, анимации', tags: ['Figma', 'GSAP'], progress: 0 },
+  { id: 2, col: 'todo', label: 'API · Backend', title: 'REST API для фитнес-трекера', desc: 'Авторизация, CRUD, WebSocket', tags: ['FastAPI', 'Redis'], progress: 0 },
+  { id: 3, col: 'progress', label: 'SaaS · Full-stack', title: 'CRM для фриланс-агентства', desc: 'Канбан, трекинг времени, счета', tags: ['React', 'FastAPI', 'PostgreSQL'], progress: 0.45 },
+  { id: 4, col: 'progress', label: 'Bot · AI', title: 'AI-ассистент для курсов', desc: 'Telegram-бот, GPT + RAG', tags: ['Python', 'GPT API'], progress: 0.65 },
+  { id: 5, col: 'done', label: 'Dashboard · Full-stack', title: 'Аналитический дашборд SaaS', desc: 'Realtime-метрики, ролевая система', tags: ['React', 'Charts', 'FastAPI'], progress: 1 },
+  { id: 6, col: 'done', label: 'E-commerce · Frontend', title: 'Магазин ювелирных украшений', desc: '3D-просмотр, Stripe, адаптив', tags: ['Next.js', 'Stripe'], progress: 1 },
+];
+
+const kanbanFilters = [
+  { key: 'all', label: 'All' },
+  { key: 'todo', label: 'Todo' },
+  { key: 'progress', label: 'In Progress' },
+  { key: 'done', label: 'Done' },
+];
+
+/* ===== OTHER DATA ===== */
 const roles = [
   { icon: '🎨', num: '01', label: 'ROLE_01', title: 'UI/UX Дизайнер', desc: 'Проектирую интерфейсы, которые не просто красивы — они конвертируют. От вайрфрейма до готового дизайн-макета с учётом пользовательского опыта.', tools: ['Figma', 'Prototyping', 'Design Systems', 'UX Research'] },
   { icon: '⚡', num: '02', label: 'ROLE_02', title: 'Frontend Dev', desc: 'Воплощаю дизайн в живой интерфейс. React-приложения с анимациями, адаптивной вёрсткой и оптимизацией под реальных пользователей.', tools: ['React', 'TypeScript', 'Next.js', 'Tailwind', 'CSS/GSAP'] },
@@ -136,37 +190,32 @@ const flowSteps = [
   { icon: '🚀', name: 'DEPLOY', desc: 'Деплой, настройка\nCI/CD, передача\nпроекта' },
 ];
 
-const kanbanCols = [
-  {
-    title: 'В процессе', color: '#f0883e',
-    cards: [
-      { label: 'SaaS · Full-stack', title: 'CRM для фриланс-агентства', metric: '→ MVP через 3 недели', tags: ['React', 'FastAPI', 'PostgreSQL'] },
-      { label: 'Bot · Telegram', title: 'AI-ассистент для онлайн-курсов', metric: '→ В разработке', tags: ['Python', 'GPT API'] },
-    ],
-  },
-  {
-    title: 'Завершено', color: '#39d353',
-    cards: [
-      { label: 'E-commerce · Frontend', title: 'Интернет-магазин ювелирных украшений', metric: '↑ Конверсия +35%', tags: ['Next.js', 'Stripe', 'Figma'] },
-      { label: 'API · Backend', title: 'Платёжный сервис для маркетплейса', metric: '↑ 99.9% uptime', tags: ['FastAPI', 'Redis', 'Docker'] },
-    ],
-  },
-  {
-    title: 'Лучшие кейсы', color: '#00e5ff',
-    cards: [
-      { label: 'Dashboard · Full-stack', title: 'Аналитический дашборд для SaaS', metric: '↑ DAU +120% за 2 месяца', tags: ['React', 'Charts', 'FastAPI'] },
-      { label: 'Automation · DevOps', title: 'CI/CD пайплайн для команды 8 человек', metric: '↓ Деплой с 2ч до 7 мин', tags: ['GitHub Actions', 'Docker'] },
-    ],
-  },
-];
-
 const stats = [
   { num: '20+', label: 'Проектов запущено' },
   { num: '3×', label: 'Быстрее команды из трёх человек' },
   { num: '4+', label: 'Года в разработке' },
 ];
 
+/* ===== COMPONENT ===== */
 export default function Home() {
+  const [kanbanFilter, setKanbanFilter] = useState('all');
+
+  const filteredCards = kanbanCards.filter(c =>
+    kanbanFilter === 'all' || c.col === kanbanFilter
+  );
+
+  const colColor = (col) => {
+    if (col === 'todo') return s.colTodo;
+    if (col === 'progress') return s.colProgress;
+    return s.colDone;
+  };
+
+  const colLabel = (col) => {
+    if (col === 'todo') return 'TODO';
+    if (col === 'progress') return 'NOW';
+    return 'DONE';
+  };
+
   return (
     <>
       {/* HERO */}
@@ -189,7 +238,7 @@ export default function Home() {
           </motion.p>
           <motion.div className={s.heroCta} variants={fadeUp} initial="hidden" animate="visible" custom={4}>
             <a href="#contact" className={s.btnPrimary}>[ Запустить проект ]</a>
-            <a href="#projects" className={s.btnSecondary}>[ Посмотреть работы ]</a>
+            <Link to="/projects" className={s.btnSecondary}>[ Посмотреть работы ]</Link>
           </motion.div>
         </div>
         <motion.div className={s.heroRight} variants={fadeUp} initial="hidden" animate="visible" custom={5}>
@@ -201,9 +250,139 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* ===== SKILLS DASHBOARD ===== */}
+      <section id="skills" className={s.skills}>
+        <SectionHeader tag="01 // SKILLS" num="DASHBOARD_ACTIVE" />
+        <h2 className={s.sectionTitle}>Мои навыки</h2>
+        <div className={s.skillsGlowLine} />
+
+        <div className={s.skillsLayout}>
+          {/* LEFT — Radar + Tech */}
+          <div className={s.skillsLeft}>
+            <motion.div
+              className={s.skillsRadarWrap}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              custom={0}
+              style={{ position: 'relative' }}
+            >
+              <CornerDecorations />
+              <div className={s.skillsRadarHeader}>TACTICAL_RADAR.exe</div>
+              <RadarChart />
+            </motion.div>
+
+            {/* Tech chips */}
+            <motion.div
+              className={s.techChips}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              custom={1}
+            >
+              {techChips.map(chip => (
+                <span key={chip} className={s.techChip} data-cursor-hover>{chip}</span>
+              ))}
+            </motion.div>
+
+            {/* Progress bars */}
+            <motion.div
+              className={s.techBars}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              custom={2}
+            >
+              {techBars.map(bar => (
+                <div key={bar.name} className={s.techBarRow}>
+                  <span className={s.techBarLabel}>{bar.name}</span>
+                  <div className={s.techBarTrack}>
+                    <motion.div
+                      className={s.techBarFill}
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${bar.level * 100}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.3 }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* RIGHT — Kanban */}
+          <motion.div
+            className={s.skillsRight}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            custom={1}
+          >
+            <div className={s.kanbanPanel} style={{ position: 'relative' }}>
+              <CornerDecorations />
+
+              {/* Kanban header / filters */}
+              <div className={s.kanbanHeader}>
+                <span className={s.kanbanTitle}>PROJECTS.board</span>
+                <div className={s.kanbanFilters}>
+                  {kanbanFilters.map(f => (
+                    <button
+                      key={f.key}
+                      className={`${s.kanbanFilterBtn} ${kanbanFilter === f.key ? s.kanbanFilterActive : ''}`}
+                      onClick={() => setKanbanFilter(f.key)}
+                    >
+                      {f.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Cards */}
+              <div className={s.kanbanBody}>
+                <AnimatePresence mode="popLayout">
+                  {filteredCards.map((card, i) => (
+                    <motion.div
+                      key={card.id}
+                      className={s.kanbanCard}
+                      data-cursor-hover
+                      layout
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0, transition: { delay: i * 0.05 } }}
+                      exit={{ opacity: 0, y: 8, transition: { duration: 0.2 } }}
+                    >
+                      <div className={s.kanbanCardTop}>
+                        <span className={s.kanbanCardLabel}>{card.label}</span>
+                        <span className={`${s.kanbanCardStatus} ${colColor(card.col)}`}>{colLabel(card.col)}</span>
+                      </div>
+                      <div className={s.kanbanCardTitle}>{card.title}</div>
+                      <div className={s.kanbanCardDesc}>{card.desc}</div>
+                      {card.progress > 0 && card.progress < 1 && (
+                        <div className={s.kanbanProgress}>
+                          <div className={s.kanbanProgressTrack}>
+                            <div className={s.kanbanProgressFill} style={{ width: `${card.progress * 100}%` }} />
+                          </div>
+                          <span className={s.kanbanProgressPct}>{Math.round(card.progress * 100)}%</span>
+                        </div>
+                      )}
+                      <div className={s.kanbanCardTags}>
+                        {card.tags.map(t => <span key={t} className={s.kanbanTag}>{t}</span>)}
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ROLES */}
       <section id="roles" className={s.roles}>
-        <SectionHeader tag="01 // ROLES" num="MODULE_LOADED" />
+        <SectionHeader tag="02 // ROLES" num="MODULE_LOADED" />
         <h2 className={s.sectionTitle}>Четыре роли.<br />Один специалист.</h2>
         <div className={s.rolesGrid}>
           {roles.map((role, i) => (
@@ -233,7 +412,7 @@ export default function Home() {
 
       {/* FLOW */}
       <section id="flow" className={s.flow}>
-        <SectionHeader tag="02 // PROCESS" num="WORKFLOW_ACTIVE" />
+        <SectionHeader tag="03 // PROCESS" num="WORKFLOW_ACTIVE" />
         <h2 className={s.sectionTitle}>Как я работаю</h2>
         <div className={s.flowContainer} style={{ position: 'relative' }}>
           <CornerDecorations />
@@ -252,47 +431,6 @@ export default function Home() {
                 <div className={s.flowName}>{step.name}</div>
                 <div className={s.flowDesc}>{step.desc.split('\n').map((line, j) => <span key={j}>{line}<br /></span>)}</div>
               </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PROJECTS KANBAN */}
-      <section id="projects" className={s.projects}>
-        <SectionHeader tag="03 // PROJECTS" num="6_LOADED" />
-        <h2 className={s.sectionTitle}>Проекты</h2>
-        <div className={s.projectsBoard}>
-          <div className={s.boardHeader}>
-            {kanbanCols.map(col => (
-              <div key={col.title} className={s.boardColTitle}>
-                <span className={s.colDot} style={{ background: col.color }} />
-                {col.title}
-              </div>
-            ))}
-          </div>
-          <div className={s.boardBody}>
-            {kanbanCols.map(col => (
-              <div key={col.title} className={s.boardCol}>
-                {col.cards.map((card, i) => (
-                  <motion.div
-                    key={card.title}
-                    className={s.projectCard}
-                    data-cursor-hover
-                    variants={cardVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.1 }}
-                    custom={i}
-                  >
-                    <div className={s.projectCardLabel}>{card.label}</div>
-                    <div className={s.projectCardTitle}>{card.title}</div>
-                    <div className={s.projectCardMetric}>{card.metric}</div>
-                    <div className={s.projectTags}>
-                      {card.tags.map(t => <span key={t} className={s.ptag}>{t}</span>)}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
             ))}
           </div>
         </div>
