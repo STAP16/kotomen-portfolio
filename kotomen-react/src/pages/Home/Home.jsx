@@ -17,36 +17,38 @@ const cardVariants = {
 
 /* ===== RADAR CHART ===== */
 const skillsData = [
-  { label: 'Frontend', value: 0.70 },
-  { label: 'Backend', value: 0.63 },
-  { label: 'DevOps', value: 0.25 },
-  { label: 'Design', value: 0.46 },
-  { label: 'AI Tools', value: 0.78 },
-  { label: 'Product', value: 0.70 },
+  { label: 'Frontend', value: 0.82 },
+  { label: 'Backend', value: 0.74 },
+  { label: 'DevOps', value: 0.58 },
+  { label: 'Design', value: 0.69 },
+  { label: 'AI Tools', value: 0.86 },
+  { label: 'Product Thinking', value: 0.77 },
 ];
 
-function RadarChart() {
+function RadarChart({ onAxisHover = () => {}, size = 460 }) {
   const canvasRef = useRef(null);
   const animProgress = useRef(0);
+  const hoveredAxisRef = useRef(-1);
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return undefined;
     const ctx = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
-    const size = 420;
     canvas.width = size * dpr;
     canvas.height = size * dpr;
     canvas.style.width = size + 'px';
     canvas.style.height = size + 'px';
     ctx.scale(dpr, dpr);
 
-    const cx = size / 2, cy = size / 2, r = 160;
+    const cx = size / 2, cy = size / 2, r = 172;
     const n = skillsData.length;
     const angleStep = (Math.PI * 2) / n;
     const startAngle = -Math.PI / 2;
 
     function draw(progress) {
       ctx.clearRect(0, 0, size, size);
+      const hovered = hoveredAxisRef.current;
 
       // grid rings
       for (let ring = 1; ring <= 4; ring++) {
@@ -58,7 +60,7 @@ function RadarChart() {
           const y = cy + rr * Math.sin(angle);
           i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
         }
-        ctx.strokeStyle = 'rgba(0,229,255,0.08)';
+        ctx.strokeStyle = 'rgba(0,240,255,0.20)';
         ctx.lineWidth = 1;
         ctx.stroke();
       }
@@ -69,8 +71,9 @@ function RadarChart() {
         ctx.beginPath();
         ctx.moveTo(cx, cy);
         ctx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
-        ctx.strokeStyle = 'rgba(0,229,255,0.12)';
-        ctx.lineWidth = 1;
+        const isActive = hovered === i;
+        ctx.strokeStyle = isActive ? 'rgba(0,240,255,0.75)' : 'rgba(0,240,255,0.2)';
+        ctx.lineWidth = isActive ? 1.6 : 1;
         ctx.stroke();
       });
 
@@ -85,12 +88,12 @@ function RadarChart() {
       });
       ctx.closePath();
       const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-      grad.addColorStop(0, 'rgba(0,229,255,0.20)');
-      grad.addColorStop(1, 'rgba(0,229,255,0.04)');
+      grad.addColorStop(0, 'rgba(0,240,255,0.24)');
+      grad.addColorStop(1, 'rgba(0,240,255,0.03)');
       ctx.fillStyle = grad;
       ctx.fill();
-      ctx.strokeStyle = 'rgba(0,229,255,0.7)';
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = 'rgba(0,240,255,0.8)';
+      ctx.lineWidth = 1.6;
       ctx.stroke();
 
       // dots + labels
@@ -102,26 +105,22 @@ function RadarChart() {
 
         // glow dot
         ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#00e5ff';
-        ctx.shadowColor = '#00e5ff';
-        ctx.shadowBlur = 12;
+        const isActive = hovered === i;
+        ctx.arc(x, y, isActive ? 5 : 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#00d8e6';
+        ctx.shadowColor = '#00e7f7';
+        ctx.shadowBlur = isActive ? 18 : 12;
         ctx.fill();
         ctx.shadowBlur = 0;
 
         // label
-        const lx = cx + (r + 28) * Math.cos(angle);
-        const ly = cy + (r + 28) * Math.sin(angle);
-        ctx.font = '11px Share Tech Mono';
-        ctx.fillStyle = 'rgba(0,229,255,0.8)';
+        const lx = cx + (r + 30) * Math.cos(angle);
+        const ly = cy + (r + 30) * Math.sin(angle);
+        ctx.font = isActive ? '700 12px Inter' : '500 11px Inter';
+        ctx.fillStyle = isActive ? 'rgba(214,250,255,0.95)' : 'rgba(146,222,232,0.85)';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(skill.label.toUpperCase(), lx, ly);
-
-        const pct = Math.round(skill.value * 100 * progress);
-        ctx.font = '9px Share Tech Mono';
-        ctx.fillStyle = 'rgba(201,209,217,0.45)';
-        ctx.fillText(pct + '%', lx, ly + 14);
       });
     }
 
@@ -141,37 +140,83 @@ function RadarChart() {
     });
     observer.observe(canvas);
 
-    return () => { observer.disconnect(); cancelAnimationFrame(rafId); };
-  }, []);
+    function getHoveredAxis(event) {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      const dx = x - cx;
+      const dy = y - cy;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance > r + 32 || distance < 28) return -1;
+
+      let angle = Math.atan2(dy, dx) - startAngle;
+      if (angle < 0) angle += Math.PI * 2;
+      return Math.round(angle / angleStep) % n;
+    }
+
+    const handleMove = (event) => {
+      const nextHovered = getHoveredAxis(event);
+      if (nextHovered !== hoveredAxisRef.current) {
+        hoveredAxisRef.current = nextHovered;
+        onAxisHover(nextHovered >= 0 ? skillsData[nextHovered].label : null);
+        draw(Math.min(animProgress.current, 1));
+      }
+    };
+
+    const handleLeave = () => {
+      hoveredAxisRef.current = -1;
+      onAxisHover(null);
+      draw(Math.min(animProgress.current, 1));
+    };
+
+    canvas.addEventListener('mousemove', handleMove);
+    canvas.addEventListener('mouseleave', handleLeave);
+
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(rafId);
+      canvas.removeEventListener('mousemove', handleMove);
+      canvas.removeEventListener('mouseleave', handleLeave);
+    };
+  }, [onAxisHover]);
 
   return <canvas ref={canvasRef} className={s.skillsRadarCanvas} />;
 }
 
 /* ===== SKILLS DATA ===== */
-const techChips = ['React', 'Next.js', 'FastAPI', 'PostgreSQL', 'Docker', 'CI/CD', 'Figma'];
+const techChips = ['React', 'Next.js', 'FastAPI', 'PostgreSQL', 'Docker', 'CI/CD', 'AWS'];
+
+const axisTechMap = {
+  Frontend: ['React', 'Next.js'],
+  Backend: ['FastAPI', 'PostgreSQL'],
+  DevOps: ['Docker', 'CI/CD', 'AWS'],
+  Design: ['React', 'Next.js'],
+  'AI Tools': ['FastAPI', 'AWS'],
+  'Product Thinking': ['React', 'PostgreSQL', 'CI/CD'],
+};
 
 const techBars = [
-  { name: 'React / Next.js', level: 0.70 },
-  { name: 'FastAPI / Python', level: 0.63 },
-  { name: 'Figma / UI', level: 0.46 },
-  { name: 'Docker / Linux', level: 0.25 },
-  { name: 'AI Tooling', level: 0.78 },
+  { name: 'React / Next.js', level: 0.82 },
+  { name: 'FastAPI / Python', level: 0.74 },
+  { name: 'Product Ops', level: 0.77 },
+  { name: 'Docker / CI', level: 0.58 },
+  { name: 'AI Tooling', level: 0.86 },
 ];
 
 const kanbanCards = [
-  { id: 1, col: 'todo', label: 'Landing · Design', title: 'Лендинг для EdTech-стартапа', desc: 'Дизайн + прототип в Figma, анимации', tags: ['Figma', 'GSAP'], progress: 0 },
-  { id: 2, col: 'todo', label: 'API · Backend', title: 'REST API для фитнес-трекера', desc: 'Авторизация, CRUD, WebSocket', tags: ['FastAPI', 'Redis'], progress: 0 },
-  { id: 3, col: 'progress', label: 'SaaS · Full-stack', title: 'CRM для фриланс-агентства', desc: 'Канбан, трекинг времени, счета', tags: ['React', 'FastAPI', 'PostgreSQL'], progress: 0.45 },
-  { id: 4, col: 'progress', label: 'Bot · AI', title: 'AI-ассистент для курсов', desc: 'Telegram-бот, GPT + RAG', tags: ['Python', 'GPT API'], progress: 0.65 },
-  { id: 5, col: 'done', label: 'Dashboard · Full-stack', title: 'Аналитический дашборд SaaS', desc: 'Realtime-метрики, ролевая система', tags: ['React', 'Charts', 'FastAPI'], progress: 1 },
-  { id: 6, col: 'done', label: 'E-commerce · Frontend', title: 'Магазин ювелирных украшений', desc: '3D-просмотр, Stripe, адаптив', tags: ['Next.js', 'Stripe'], progress: 1 },
+  { id: 1, col: 'todo', label: 'Design Sprint', title: 'EdTech landing architecture', desc: 'Flow map, value framing and key UX hypotheses.', stack: ['◉', '△', '⌘'], progress: 0.18, members: ['AK', 'IR', 'UI'], role: 'Product + UX lead', steplanding: true },
+  { id: 2, col: 'todo', label: 'API System', title: 'Fitness tracker service core', desc: 'Auth, event model and API contracts for clients.', stack: ['λ', '▦', '⇄'], progress: 0.24, members: ['BE', 'QA'], role: 'Backend architect', steplanding: false },
+  { id: 3, col: 'progress', label: 'SaaS CRM', title: 'Agency operating workspace', desc: 'Kanban, estimates and analytics in one loop.', stack: ['◉', 'λ', '▦'], progress: 0.61, members: ['FS', 'PM', 'DS'], role: 'System orchestrator', steplanding: true },
+  { id: 4, col: 'progress', label: 'AI Workflow', title: 'Course assistant pipeline', desc: 'Prompt routing, retrieval quality and moderation.', stack: ['λ', '✶', '⇄'], progress: 0.74, members: ['AI', 'BE'], role: 'AI integration owner', steplanding: false },
+  { id: 5, col: 'done', label: 'Analytics Board', title: 'SaaS executive dashboard', desc: 'Real-time metrics, role model and alerting.', stack: ['◉', '▣', 'λ'], progress: 1, members: ['FS', 'DA', 'CTO'], role: 'Product engineering lead', steplanding: true },
+  { id: 6, col: 'done', label: 'Commerce UX', title: 'Jewelry commerce platform', desc: 'Checkout pipeline with conversion-focused UI.', stack: ['◉', '◇', '⌁'], progress: 1, members: ['FE', 'UX'], role: 'Frontend owner', steplanding: false },
 ];
 
 const kanbanFilters = [
-  { key: 'all', label: 'All' },
   { key: 'todo', label: 'Todo' },
   { key: 'progress', label: 'In Progress' },
   { key: 'done', label: 'Done' },
+  { key: 'steplanding', label: 'STEPLANDING' },
 ];
 
 /* ===== OTHER DATA ===== */
@@ -198,11 +243,18 @@ const stats = [
 
 /* ===== COMPONENT ===== */
 export default function Home() {
-  const [kanbanFilter, setKanbanFilter] = useState('all');
+  const [kanbanFilter, setKanbanFilter] = useState('progress');
+  const [activeAxis, setActiveAxis] = useState(null);
+  const [skillsParallax, setSkillsParallax] = useState(0);
 
-  const filteredCards = kanbanCards.filter(c =>
-    kanbanFilter === 'all' || c.col === kanbanFilter
-  );
+  useEffect(() => {
+    const onScroll = () => {
+      setSkillsParallax(window.scrollY * 0.08);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const colColor = (col) => {
     if (col === 'todo') return s.colTodo;
@@ -213,8 +265,17 @@ export default function Home() {
   const colLabel = (col) => {
     if (col === 'todo') return 'TODO';
     if (col === 'progress') return 'NOW';
-    return 'DONE';
+    return 'COMPLETED';
   };
+
+  const skillsSectionStyle = { '--skills-parallax': `${skillsParallax}px` };
+
+  const getColumnCards = (column) =>
+    kanbanCards.filter((card) => {
+      if (card.col !== column) return false;
+      if (kanbanFilter === 'steplanding') return card.steplanding;
+      return card.col === kanbanFilter;
+    });
 
   return (
     <>
@@ -245,35 +306,31 @@ export default function Home() {
           <div className={s.radarContainer} style={{ position: 'relative' }}>
             <CornerDecorations />
             <div className={s.radarTitle}>SKILL_MATRIX.exe — v2.4.1</div>
-            <RadarChart />
+            <RadarChart size={420} />
           </div>
         </motion.div>
       </section>
 
       {/* ===== SKILLS DASHBOARD ===== */}
-      <section id="skills" className={s.skills}>
-        <SectionHeader tag="01 // SKILLS" num="DASHBOARD_ACTIVE" />
+      <section id="skills" className={s.skills} style={skillsSectionStyle}>
         <h2 className={s.sectionTitle}>Мои навыки</h2>
         <div className={s.skillsGlowLine} />
 
         <div className={s.skillsLayout}>
-          {/* LEFT — Radar + Tech */}
           <div className={s.skillsLeft}>
             <motion.div
               className={s.skillsRadarWrap}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
+              initial={{ opacity: 0, y: 18, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.1 }}
-              custom={0}
+              transition={{ duration: 0.7 }}
               style={{ position: 'relative' }}
             >
               <CornerDecorations />
               <div className={s.skillsRadarHeader}>TACTICAL_RADAR.exe</div>
-              <RadarChart />
+              <RadarChart onAxisHover={setActiveAxis} size={460} />
             </motion.div>
 
-            {/* Tech chips */}
             <motion.div
               className={s.techChips}
               variants={fadeUp}
@@ -283,11 +340,16 @@ export default function Home() {
               custom={1}
             >
               {techChips.map(chip => (
-                <span key={chip} className={s.techChip} data-cursor-hover>{chip}</span>
+                <span
+                  key={chip}
+                  className={`${s.techChip} ${activeAxis && axisTechMap[activeAxis]?.includes(chip) ? s.techChipActive : ''}`}
+                  data-cursor-hover
+                >
+                  {chip}
+                </span>
               ))}
             </motion.div>
 
-            {/* Progress bars */}
             <motion.div
               className={s.techBars}
               variants={fadeUp}
@@ -305,7 +367,7 @@ export default function Home() {
                       initial={{ width: 0 }}
                       whileInView={{ width: `${bar.level * 100}%` }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1, delay: 0.3 }}
+                      transition={{ duration: 0.9, delay: 0.2 }}
                     />
                   </div>
                 </div>
@@ -313,7 +375,6 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* RIGHT — Kanban */}
           <motion.div
             className={s.skillsRight}
             variants={fadeUp}
@@ -325,7 +386,6 @@ export default function Home() {
             <div className={s.kanbanPanel} style={{ position: 'relative' }}>
               <CornerDecorations />
 
-              {/* Kanban header / filters */}
               <div className={s.kanbanHeader}>
                 <span className={s.kanbanTitle}>PROJECTS.board</span>
                 <div className={s.kanbanFilters}>
@@ -341,39 +401,58 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Cards */}
               <div className={s.kanbanBody}>
-                <AnimatePresence mode="popLayout">
-                  {filteredCards.map((card, i) => (
-                    <motion.div
-                      key={card.id}
-                      className={s.kanbanCard}
-                      data-cursor-hover
-                      layout
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0, transition: { delay: i * 0.05 } }}
-                      exit={{ opacity: 0, y: 8, transition: { duration: 0.2 } }}
-                    >
-                      <div className={s.kanbanCardTop}>
-                        <span className={s.kanbanCardLabel}>{card.label}</span>
-                        <span className={`${s.kanbanCardStatus} ${colColor(card.col)}`}>{colLabel(card.col)}</span>
-                      </div>
-                      <div className={s.kanbanCardTitle}>{card.title}</div>
-                      <div className={s.kanbanCardDesc}>{card.desc}</div>
-                      {card.progress > 0 && card.progress < 1 && (
-                        <div className={s.kanbanProgress}>
-                          <div className={s.kanbanProgressTrack}>
-                            <div className={s.kanbanProgressFill} style={{ width: `${card.progress * 100}%` }} />
+                {[
+                  { key: 'todo', title: 'Todo' },
+                  { key: 'progress', title: 'In Progress' },
+                  { key: 'done', title: 'Done' },
+                ].map((column) => (
+                  <div
+                    key={column.key}
+                    className={`${s.kanbanColumn} ${column.key === 'progress' ? s.kanbanColumnAccent : ''}`}
+                  >
+                    <div className={s.kanbanColumnHead}>
+                      <span>{column.title}</span>
+                      {column.key === 'progress' && <span className={s.nowBadge}>Now</span>}
+                    </div>
+                    <AnimatePresence mode="popLayout">
+                      {getColumnCards(column.key).map((card, i) => (
+                        <motion.div
+                          key={card.id}
+                          className={s.kanbanCard}
+                          data-cursor-hover
+                          layout
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0, transition: { delay: i * 0.05 } }}
+                          exit={{ opacity: 0, y: 8, transition: { duration: 0.2 } }}
+                        >
+                          <div className={s.kanbanCardTop}>
+                            <span className={s.kanbanCardLabel}>{card.label}</span>
+                            <span className={`${s.kanbanCardStatus} ${colColor(card.col)}`}>{colLabel(card.col)}</span>
                           </div>
-                          <span className={s.kanbanProgressPct}>{Math.round(card.progress * 100)}%</span>
-                        </div>
-                      )}
-                      <div className={s.kanbanCardTags}>
-                        {card.tags.map(t => <span key={t} className={s.kanbanTag}>{t}</span>)}
-                      </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
+                          <div className={s.kanbanCardTitle}>{card.title}</div>
+                          <div className={s.kanbanCardDesc}>{card.desc}</div>
+                          <div className={s.kanbanStackRow}>
+                            {card.stack.map((item) => (
+                              <span key={`${card.id}-${item}`} className={s.kanbanStackIcon}>{item}</span>
+                            ))}
+                          </div>
+                          <div className={s.kanbanProgress}>
+                            <div className={s.kanbanProgressTrack}>
+                              <div className={s.kanbanProgressFill} style={{ width: `${card.progress * 100}%` }} />
+                            </div>
+                          </div>
+                          <div className={s.kanbanMembers}>
+                            {card.members.map((member) => (
+                              <span key={`${card.id}-${member}`} className={s.kanbanMember}>{member}</span>
+                            ))}
+                          </div>
+                          <div className={s.cardRoleHint}>{card.role}</div>
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>

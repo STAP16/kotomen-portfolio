@@ -139,51 +139,89 @@
   margin: 0 auto;
   padding: 120px 40px 80px;
   position: relative;
+  background: linear-gradient(180deg, #0b0f17 0%, #0e1622 100%);
+  border: 1px solid rgba(0, 182, 204, 0.2);
+  overflow: hidden;
+}
+
+.skills::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(157, 230, 240, 0.06) 0 1px, transparent 1px),
+    radial-gradient(circle at 80% 10%, rgba(157, 230, 240, 0.05) 0 1px, transparent 1px),
+    radial-gradient(circle at 60% 70%, rgba(157, 230, 240, 0.04) 0 1px, transparent 1px);
+  background-size: 240px 240px, 300px 300px, 280px 280px;
+  background-position: 0 calc(var(--skills-parallax, 0px) * -0.7), 0 calc(var(--skills-parallax, 0px) * -0.45), 0 calc(var(--skills-parallax, 0px) * -0.25);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.skills::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 0.5px, transparent 0.5px);
+  background-size: 3px 3px;
+  opacity: 0.035;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.skills .sectionTitle {
+  text-align: center;
+  margin-bottom: 0;
+  color: #e6f1ff;
 }
 
 .skillsGlowLine {
-  width: 120px;
+  width: 180px;
   height: 2px;
-  background: linear-gradient(90deg, var(--cyan), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0, 225, 240, 0.9), transparent);
   margin: 12px auto 48px;
-  box-shadow: 0 0 12px var(--cyan), 0 0 24px rgba(0,229,255,0.2);
+  box-shadow: 0 0 14px rgba(0, 209, 224, 0.55), 0 0 32px rgba(0, 209, 224, 0.2);
 }
 
 .skillsLayout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2px;
+  gap: 18px;
   align-items: start;
+  position: relative;
+  z-index: 1;
 }
 
 /* ---- LEFT: Radar + tech ---- */
 .skillsLeft {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 14px;
 }
 
 .skillsRadarWrap {
-  background: var(--bg2);
-  border: 1px solid var(--border);
+  background: rgba(10, 18, 30, 0.72);
+  border: 1px solid rgba(0, 190, 210, 0.22);
   padding: 32px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1px rgba(187, 239, 247, 0.03), 0 8px 36px rgba(5, 13, 22, 0.52);
 }
 .skillsRadarWrap::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 30% 40%, rgba(0,229,255,0.04), transparent 70%);
+  background: radial-gradient(ellipse at 30% 40%, rgba(0, 190, 210, 0.08), transparent 72%);
   pointer-events: none;
 }
 
 .skillsRadarHeader {
-  font-family: 'Share Tech Mono';
-  font-size: 10px;
-  color: var(--text-dim);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: rgba(196, 223, 230, 0.76);
   letter-spacing: 2px;
   align-self: flex-end;
   margin-bottom: 8px;
@@ -200,27 +238,37 @@
   flex-wrap: wrap;
   gap: 8px;
   padding: 20px 24px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
+  background: rgba(10, 18, 30, 0.7);
+  border: 1px solid rgba(0, 190, 210, 0.18);
+  border-radius: 14px;
 }
 
 .techChip {
-  font-family: 'Share Tech Mono';
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
+  font-weight: 500;
   letter-spacing: 1px;
   padding: 8px 16px;
-  border: 1px solid rgba(0,229,255,0.2);
-  color: var(--text-dim);
-  background: rgba(0,229,255,0.03);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  color: rgba(193, 210, 217, 0.82);
+  background: rgba(186, 230, 240, 0.04);
   backdrop-filter: blur(4px);
   transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
   cursor: none;
+  border-radius: 999px;
 }
 .techChip:hover {
-  border-color: rgba(0,229,255,0.5);
-  color: var(--cyan);
-  background: rgba(0,229,255,0.08);
-  box-shadow: 0 0 12px rgba(0,229,255,0.1);
+  border-color: rgba(0, 219, 235, 0.56);
+  color: #d6f6ff;
+  background: rgba(0, 255, 255, 0.08);
+  box-shadow: 0 0 12px rgba(0, 219, 235, 0.16);
+}
+
+.techChipActive {
+  border-color: rgba(0, 219, 235, 0.75);
+  color: #dffaff;
+  background: rgba(0, 255, 255, 0.12);
+  box-shadow: 0 0 16px rgba(0, 219, 235, 0.24);
 }
 
 /* Tech progress bars */
@@ -229,8 +277,9 @@
   flex-direction: column;
   gap: 14px;
   padding: 24px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
+  background: rgba(10, 18, 30, 0.7);
+  border: 1px solid rgba(0, 190, 210, 0.18);
+  border-radius: 14px;
 }
 
 .techBarRow {
@@ -240,9 +289,9 @@
 }
 
 .techBarLabel {
-  font-family: 'Share Tech Mono';
+  font-family: 'Inter', sans-serif;
   font-size: 10px;
-  color: var(--text-dim);
+  color: rgba(187, 209, 218, 0.76);
   letter-spacing: 1px;
   width: 130px;
   flex-shrink: 0;
@@ -251,16 +300,16 @@
 .techBarTrack {
   flex: 1;
   height: 4px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 2px;
   overflow: hidden;
 }
 
 .techBarFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--cyan), rgba(0,229,255,0.4));
+  background: linear-gradient(90deg, rgba(0, 208, 224, 0.9), rgba(0, 208, 224, 0.4));
   border-radius: 2px;
-  box-shadow: 0 0 8px rgba(0,229,255,0.3);
+  box-shadow: 0 0 8px rgba(0, 208, 224, 0.22);
 }
 
 /* ---- RIGHT: Kanban ---- */
@@ -270,12 +319,14 @@
 }
 
 .kanbanPanel {
-  background: var(--bg2);
-  border: 1px solid var(--border);
+  background: rgba(10, 18, 30, 0.74);
+  border: 1px solid rgba(0, 190, 210, 0.22);
   position: relative;
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1px rgba(187, 239, 247, 0.03), 0 8px 36px rgba(5, 13, 22, 0.52);
 }
 
 .kanbanHeader {
@@ -283,15 +334,15 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(0, 190, 210, 0.2);
   gap: 12px;
   flex-wrap: wrap;
 }
 
 .kanbanTitle {
-  font-family: 'Share Tech Mono';
+  font-family: 'Inter', sans-serif;
   font-size: 10px;
-  color: var(--cyan);
+  color: rgba(168, 230, 241, 0.96);
   letter-spacing: 2px;
 }
 
@@ -301,50 +352,103 @@
 }
 
 .kanbanFilterBtn {
-  font-family: 'Share Tech Mono';
-  font-size: 9px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
   letter-spacing: 1px;
   padding: 6px 14px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(136, 191, 201, 0.24);
+  color: rgba(185, 210, 218, 0.76);
   cursor: none;
   transition: all 0.2s;
+  border-radius: 9px;
 }
 .kanbanFilterBtn:hover {
-  border-color: rgba(0,229,255,0.4);
-  color: var(--cyan);
+  border-color: rgba(0, 214, 230, 0.5);
+  color: #c9f6ff;
 }
 .kanbanFilterActive {
-  border-color: var(--cyan);
-  color: var(--cyan);
-  background: rgba(0,229,255,0.08);
-  box-shadow: 0 0 8px rgba(0,229,255,0.15);
+  border-color: rgba(0, 214, 230, 0.72);
+  color: #d2f8ff;
+  background: rgba(0, 255, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 214, 230, 0.2);
 }
 
 /* Kanban body */
 .kanbanBody {
   padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  flex: 1;
+}
+
+.kanbanColumn {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  flex: 1;
-  overflow-y: auto;
-  max-height: 620px;
+  min-height: 520px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(136, 191, 201, 0.16);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.kanbanColumnAccent {
+  background: rgba(0, 214, 230, 0.08);
+  border-color: rgba(0, 214, 230, 0.3);
+}
+
+.kanbanColumnHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(212, 235, 240, 0.88);
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(136, 191, 201, 0.18);
+}
+
+.nowBadge {
+  border: 1px solid rgba(0, 214, 230, 0.6);
+  background: rgba(0, 214, 230, 0.15);
+  color: #d9fcff;
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
 }
 
 .kanbanCard {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--border);
-  border-radius: 4px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(0,255,255,0.12);
+  border-radius: 14px;
   padding: 16px 18px;
   cursor: none;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
 }
 .kanbanCard:hover {
-  border-color: rgba(0,229,255,0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0,229,255,0.06);
+  border-color: rgba(0,219,235,0.45);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px rgba(0,219,235,0.08);
+}
+
+.kanbanCard::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 219, 235, 0.65);
+  box-shadow: 0 0 10px rgba(0, 219, 235, 0.48);
 }
 
 .kanbanCardTop {
@@ -355,64 +459,83 @@
 }
 
 .kanbanCardLabel {
-  font-family: 'Share Tech Mono';
+  font-family: 'Inter', sans-serif;
   font-size: 9px;
-  color: var(--text-dim);
+  color: rgba(180, 204, 212, 0.82);
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
 .kanbanCardStatus {
-  font-family: 'Share Tech Mono';
+  font-family: 'Inter', sans-serif;
   font-size: 8px;
   letter-spacing: 2px;
   padding: 3px 8px;
   border: 1px solid;
+  border-radius: 999px;
 }
 
 .colTodo {
-  border-color: rgba(201,209,217,0.2);
-  color: var(--text-dim);
-  background: rgba(201,209,217,0.04);
+  border-color: rgba(163, 183, 189, 0.38);
+  color: rgba(181, 206, 213, 0.85);
+  background: rgba(201,209,217,0.08);
 }
 .colProgress {
-  border-color: rgba(240,136,62,0.4);
-  color: var(--orange);
-  background: rgba(240,136,62,0.08);
+  border-color: rgba(0, 214, 230, 0.5);
+  color: #c9f6ff;
+  background: rgba(0, 214, 230, 0.14);
 }
 .colDone {
-  border-color: rgba(57,211,83,0.4);
-  color: var(--green);
-  background: rgba(57,211,83,0.08);
+  border-color: rgba(115, 224, 142, 0.5);
+  color: #b8f1c6;
+  background: rgba(57,211,83,0.1);
 }
 
 .kanbanCardTitle {
-  font-family: 'Rajdhani';
-  font-weight: 600;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
   font-size: 15px;
-  color: #fff;
+  color: #edf6ff;
   margin-bottom: 4px;
   line-height: 1.3;
 }
 
 .kanbanCardDesc {
   font-size: 12px;
-  color: var(--text-dim);
+  color: rgba(176, 200, 208, 0.78);
   line-height: 1.5;
   margin-bottom: 10px;
+  min-height: 34px;
+}
+
+.kanbanStackRow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.kanbanStackIcon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(136, 191, 201, 0.34);
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(206, 236, 242, 0.9);
+  font-size: 11px;
 }
 
 /* Progress bar inside card */
 .kanbanProgress {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: block;
   margin-bottom: 10px;
 }
 
 .kanbanProgressTrack {
-  flex: 1;
-  height: 3px;
+  width: 100%;
+  height: 4px;
   background: rgba(255,255,255,0.06);
   border-radius: 2px;
   overflow: hidden;
@@ -420,33 +543,54 @@
 
 .kanbanProgressFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--orange), rgba(240,136,62,0.5));
+  background: linear-gradient(90deg, rgba(0, 214, 230, 0.9), rgba(0, 214, 230, 0.38));
   border-radius: 2px;
   transition: width 0.6s ease;
 }
 
-.kanbanProgressPct {
-  font-family: 'Share Tech Mono';
-  font-size: 9px;
-  color: var(--orange);
-  letter-spacing: 1px;
-  min-width: 28px;
-}
-
-.kanbanCardTags {
+.kanbanMembers {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
+  align-items: center;
+  margin-top: 12px;
 }
 
-.kanbanTag {
-  font-family: 'Share Tech Mono';
+.kanbanMember {
+  width: 24px;
+  height: 24px;
+  margin-right: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(13, 22, 34, 0.9);
+  background: linear-gradient(135deg, rgba(124, 168, 177, 0.9), rgba(64, 99, 117, 0.9));
+  color: #f0f9ff;
   font-size: 9px;
-  padding: 2px 8px;
-  border: 1px solid var(--border);
-  color: var(--text-dim);
-  letter-spacing: 1px;
-  background: rgba(0,229,255,0.02);
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardRoleHint {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 12px;
+  transform: translateY(10px);
+  opacity: 0;
+  background: rgba(8, 18, 28, 0.92);
+  border: 1px solid rgba(0, 214, 230, 0.3);
+  border-radius: 8px;
+  padding: 7px 10px;
+  color: rgba(199, 232, 239, 0.9);
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.kanbanCard:hover .cardRoleHint {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ===== ROLES ===== */
@@ -776,6 +920,8 @@
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
   .skillsLayout { grid-template-columns: 1fr; }
+  .kanbanBody { grid-template-columns: 1fr; }
+  .kanbanColumn { min-height: auto; }
 }
 
 @media (max-width: 900px) {
@@ -785,6 +931,7 @@
   .skillsLayout { grid-template-columns: 1fr; }
   .techBarLabel { width: 100px; font-size: 9px; }
   .kanbanFilters { flex-wrap: wrap; }
+  .kanbanBody { grid-template-columns: 1fr; }
   .rolesGrid { grid-template-columns: 1fr; }
   .contactGrid { grid-template-columns: 1fr; }
   .roles, .flow, .contact { padding: 60px 20px; }
