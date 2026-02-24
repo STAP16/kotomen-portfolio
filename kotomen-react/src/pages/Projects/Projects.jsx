@@ -48,7 +48,7 @@ export default function Projects() {
         <h1 className={s.pageTitle}>МОИ<br /><span className={s.accent}>ПРОЕКТЫ</span></h1>
         <div className={s.headerRow}>
           <p className={s.pageSubtitle}>Реальные продукты с измеримыми результатами. От идеи до деплоя.</p>
-          <div className={s.projectCount}>20+<span>ПРОЕКТОВ ЗАПУЩЕНО</span></div>
+          <div className={s.projectCount}>REAL<span>ПРОЕКТЫ</span></div>
         </div>
       </div>
 

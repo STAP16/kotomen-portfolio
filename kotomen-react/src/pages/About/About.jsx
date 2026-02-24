@@ -161,9 +161,9 @@ export default function About() {
           <div className={s.identityRole}>FULL-STACK PRODUCT ENGINEER</div>
           <div className={s.identityMeta}>
             <div className={s.metaRow}><span className={s.metaLabel}>ЛОКАЦИЯ</span><span className={s.metaValue}>Россия / Remote</span></div>
-            <div className={s.metaRow}><span className={s.metaLabel}>ОПЫТ</span><span className={s.metaValue}>4+ года</span></div>
+            <div className={s.metaRow}><span className={s.metaLabel}>ОПЫТ</span><span className={s.metaValue}>2+ года</span></div>
             <div className={s.metaRow}><span className={s.metaLabel}>СТАТУС</span><span className={`${s.metaValue} ${s.green}`}>● AVAILABLE</span></div>
-            <div className={s.metaRow}><span className={s.metaLabel}>ПРОЕКТЫ</span><span className={s.metaValue}>20+ запущено</span></div>
+            <div className={s.metaRow}><span className={s.metaLabel}>ПОРТФОЛИО</span><span className={s.metaValue}>Реальные кейсы</span></div>
             <div className={s.metaRow}><span className={s.metaLabel}>TELEGRAM</span><span className={s.metaValue}>@stap17</span></div>
           </div>
         </motion.div>
