@@ -164,7 +164,7 @@ export default function About() {
             <div className={s.metaRow}><span className={s.metaLabel}>ОПЫТ</span><span className={s.metaValue}>4+ года</span></div>
             <div className={s.metaRow}><span className={s.metaLabel}>СТАТУС</span><span className={`${s.metaValue} ${s.green}`}>● AVAILABLE</span></div>
             <div className={s.metaRow}><span className={s.metaLabel}>ПРОЕКТЫ</span><span className={s.metaValue}>20+ запущено</span></div>
-            <div className={s.metaRow}><span className={s.metaLabel}>TELEGRAM</span><span className={s.metaValue}>@kotomen</span></div>
+            <div className={s.metaRow}><span className={s.metaLabel}>TELEGRAM</span><span className={s.metaValue}>@stap17</span></div>
           </div>
         </motion.div>
 

@@ -14,8 +14,9 @@ export default function ProjectDetails() {
   const project = getProjectBySlug(slug);
   const gallery = Array.isArray(project?.gallery) ? project.gallery.slice(0, 3) : [];
   const [mainImg, secondImg, thirdImg] = gallery;
-  const liveLink = project?.links?.find((link) => /live|preview|case/i.test(link.label));
-  const codeLink = project?.links?.find((link) => /github|code/i.test(link.label));
+  const isUsableLink = (link) => link && !link.disabled && link.href && link.href !== '#';
+  const liveLink = project?.links?.find((link) => /live|preview|case/i.test(link.label) && isUsableLink(link));
+  const codeLink = project?.links?.find((link) => /github|code/i.test(link.label) && isUsableLink(link));
 
   if (!project) {
     return (

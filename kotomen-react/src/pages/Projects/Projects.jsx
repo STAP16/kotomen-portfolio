@@ -31,6 +31,12 @@ export default function Projects() {
     return s.featuredBadge;
   };
 
+  const isLinkDisabled = (link) => link.disabled || !link.href || link.href === '#';
+
+  const getBannerCover = (project) => (
+    project.banner || (Array.isArray(project.gallery) && project.gallery.length > 0 ? project.gallery[0] : null)
+  );
+
   return (
     <main className={s.page}>
       <div className={s.pageHeader}>
@@ -85,7 +91,16 @@ export default function Projects() {
             >
               <CornerDecorations />
               <div className={s.projectCardVisual}>
-                {p.icon}
+                {getBannerCover(p) ? (
+                  <img
+                    src={getBannerCover(p)}
+                    alt={`${p.title} cover`}
+                    className={s.projectCoverImage}
+                    loading="lazy"
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  />
+                ) : null}
+                <span className={s.projectIconFallback}>{p.icon}</span>
                 <span className={`${s.cardStatus} ${statusClass(p.status)}`}>{p.statusLabel}</span>
               </div>
               <div className={s.projectCardBody}>
@@ -98,16 +113,20 @@ export default function Projects() {
                 </div>
                 <div className={s.cardFooter}>
                   <div className={s.cardLinks}>
-                    {p.links.map(l => (
-                      <a
-                        key={l.label}
-                        href={l.href}
-                        className={s.cardLink}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {l.label}
-                      </a>
-                    ))}
+                    {p.links
+                      .filter((l) => !isLinkDisabled(l))
+                      .map((l) => (
+                        <a
+                          key={l.label}
+                          href={l.href}
+                          className={s.cardLink}
+                          onClick={(e) => e.stopPropagation()}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {l.label}
+                        </a>
+                      ))}
                   </div>
                   <span className={s.cardRole}>{p.role}</span>
                 </div>

@@ -11,6 +11,11 @@ const fadeUp = {
   visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.2, duration: 0.6 } }),
 };
 
+const heroFadeUp = {
+  hidden: { opacity: 0, y: 18 },
+  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.1, duration: 0.45 } }),
+};
+
 const cardVariants = {
   hidden: { opacity: 0, y: 16 },
   visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.07, duration: 0.5 } }),
@@ -314,27 +319,26 @@ export default function Home() {
       {/* HERO */}
       <section id="hero" className={s.hero}>
         <div className={s.heroLeft}>
-          <motion.div className={s.heroTerminal} variants={fadeUp} initial="hidden" animate="visible" custom={0}>
+          <motion.div className={s.heroTerminal} variants={heroFadeUp} initial="hidden" animate="visible" custom={0}>
             <span>~</span> kotomen@prod:~$ <span>whoami</span>
           </motion.div>
-          <motion.h1 className={s.heroName} variants={fadeUp} initial="hidden" animate="visible" custom={1}>
+          <motion.h1 className={s.heroName} variants={heroFadeUp} initial="hidden" animate="visible" custom={1}>
             FULL<span className={s.accent}>STACK</span><br />PRODUCT<br />ENGINEER
           </motion.h1>
-          <motion.p className={s.heroTagline} variants={fadeUp} initial="hidden" animate="visible" custom={2}>
-            <strong>Дизайнер · Бекендер · Фронтендер · DevOps</strong><br />
+          <motion.p className={s.heroTagline} variants={heroFadeUp} initial="hidden" animate="visible" custom={2}>
             Один человек — полный цикл продукта
           </motion.p>
-          <motion.p className={s.heroDesc} variants={fadeUp} initial="hidden" animate="visible" custom={3}>
+          <motion.p className={s.heroDesc} variants={heroFadeUp} initial="hidden" animate="visible" custom={3}>
             Раньше кодил всё руками. Теперь совмещаю инженерное мышление
             с AI-инструментами — быстрее, лучше, от идеи до деплоя.
             Закрываю задачи, на которые обычно нужна целая команда.
           </motion.p>
-          <motion.div className={s.heroCta} variants={fadeUp} initial="hidden" animate="visible" custom={4}>
+          <motion.div className={s.heroCta} variants={heroFadeUp} initial="hidden" animate="visible" custom={4}>
             <a href="#contact" className={s.btnPrimary}>[ Запустить проект ]</a>
             <Link to="/projects" className={s.btnSecondary}>[ Посмотреть работы ]</Link>
           </motion.div>
         </div>
-        <motion.div className={s.heroRight} variants={fadeUp} initial="hidden" animate="visible" custom={5}>
+        <motion.div className={s.heroRight} variants={heroFadeUp} initial="hidden" animate="visible" custom={3}>
           <div className={s.heroAvatarWrap} style={{ position: 'relative' }}>
             <CornerDecorations />
             <div className={s.heroAvatarLabel}>Котоман Степан</div>
@@ -419,7 +423,7 @@ export default function Home() {
           >
             <div className={s.missionPanel} ref={xpPanelRef}>
               <div className={s.missionHeader}>SYSTEM_PROGRESS.log</div>
-              <div className={s.missionLevel}>Level 12 Product Engineer</div>
+              <div className={s.missionLevel}>Level 18 Product Engineer</div>
               <div className={s.missionXp}>XP: {xpValue} / 10000</div>
 
               <div className={s.missionGroups}>
@@ -511,19 +515,19 @@ export default function Home() {
               <div className={s.statusDot} />
             </div>
             <div className={s.contactLinks}>
-              <a href="https://t.me/kotomen" className={s.contactLink} target="_blank" rel="noreferrer">
+              <a href="https://t.me/stap17" className={s.contactLink} target="_blank" rel="noreferrer">
                 <span className={s.contactLinkIcon}><IconTelegram /></span>
-                Telegram — @kotomen
+                Telegram — @stap17
                 <span className={s.contactLinkArrow}>→</span>
               </a>
-              <a href="mailto:hello@kotomen.dev" className={s.contactLink}>
+              <a href="mailto:stepancat61@gmail.com" className={s.contactLink}>
                 <span className={s.contactLinkIcon}><IconEmail /></span>
-                hello@kotomen.dev
+                stepancat61@gmail.com
                 <span className={s.contactLinkArrow}>→</span>
               </a>
-              <a href="#" className={s.contactLink}>
+              <a href="https://github.com/STAP16" className={s.contactLink} target="_blank" rel="noreferrer">
                 <span className={s.contactLinkIcon}><IconGitHub /></span>
-                GitHub / Portfolio
+                GitHub — STAP16
                 <span className={s.contactLinkArrow}>→</span>
               </a>
             </div>
