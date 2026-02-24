@@ -19,6 +19,7 @@
   letter-spacing: 4px;
   text-shadow: 0 0 20px var(--cyan);
   text-decoration: none;
+  cursor: none;
 }
 
 .navLogo span {
@@ -65,15 +66,15 @@
   gap: 8px;
   font-family: 'Share Tech Mono';
   font-size: 11px;
-  color: var(--green);
+  color: var(--available);
 }
 
 .statusDot {
   width: 6px; height: 6px;
-  background: var(--green);
+  background: var(--available);
   border-radius: 50%;
   animation: blink 2s infinite;
-  box-shadow: 0 0 8px var(--green);
+  box-shadow: 0 0 8px rgba(120, 220, 255, 0.7);
 }
 
 @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }

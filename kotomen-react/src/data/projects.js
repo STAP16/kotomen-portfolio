@@ -1,4 +1,39 @@
+import kaizenMain from '../assets/projects/kaizen-mini-app/main.png';
+import kaizenSecond from '../assets/projects/kaizen-mini-app/second.png';
+import kaizenThird from '../assets/projects/kaizen-mini-app/third.png';
+
 export const projects = [
+  {
+    id: 9,
+    slug: 'kaizen-mini-app',
+    type: 'personal',
+    icon: '🎯',
+    status: 'done',
+    statusLabel: 'DONE',
+    cat: 'FULL-STACK · TELEGRAM MINI APP',
+    title: 'Kaizen Mini App — трекер продуктивности',
+    desc: 'Приложение для продуктивности через долгосрочные цели, фокус дня и микро-действия. Помогает сохранять фокус и видеть прогресс каждый день.',
+    metric: 'MVP за 7 дней',
+    tags: ['React', 'CSS', 'FastAPI', 'TanStack Query', 'PostgreSQL', 'Docker', 'Nginx', 'Certbot'],
+    links: [{ label: '[ Live → ]', href: 'http://t.me/kaizen_appbot/app' }],
+    role: 'Frontend · Backend · Optimization',
+    period: '2026',
+    client: 'Личный проект',
+    duration: '7 дней до MVP',
+    team: 'AI agents + solo',
+    problem: 'Пользователи теряют фокус в течение дня и не видят реальный прогресс по долгосрочным целям.',
+    solution: 'Собран workflow из трех уровней: долгосрочная цель, фокус дня и микро-действия, чтобы переводить намерения в конкретные шаги.',
+    outcomes: [
+      'Запущена первая версия Telegram Mini App',
+      'Рабочий MVP реализован за 7 дней',
+      'Сформирована масштабируемая архитектура для развития продукта',
+    ],
+    gallery: [
+      kaizenMain,
+      kaizenSecond,
+      kaizenThird,
+    ],
+  },
   {
     id: 1,
     slug: 'saas-analytics-dashboard',
@@ -24,6 +59,11 @@ export const projects = [
       'DAU вырос на 120% через 2 месяца после релиза',
       'Время подготовки отчёта сократилось с часов до минут',
       'Снизили нагрузку на БД за счёт кэша и индексов',
+    ],
+    gallery: [
+      '/images/projects/saas-analytics-dashboard/main.jpg',
+      '/images/projects/saas-analytics-dashboard/second.jpg',
+      '/images/projects/saas-analytics-dashboard/third.jpg',
     ],
   },
   {
@@ -51,6 +91,11 @@ export const projects = [
       'Сократился bounce rate на мобильных устройствах',
       'Упростился checkout и путь до оплаты',
     ],
+    gallery: [
+      '/images/projects/jewelry-ecommerce-store/main.jpg',
+      '/images/projects/jewelry-ecommerce-store/second.jpg',
+      '/images/projects/jewelry-ecommerce-store/third.jpg',
+    ],
   },
   {
     id: 4,
@@ -76,6 +121,11 @@ export const projects = [
       '99.9% uptime за полгода',
       'Снижение процента неуспешных транзакций',
       'Полный аудит для финансовых разборов',
+    ],
+    gallery: [
+      '/images/projects/marketplace-payment-api/main.jpg',
+      '/images/projects/marketplace-payment-api/second.jpg',
+      '/images/projects/marketplace-payment-api/third.jpg',
     ],
   },
   {
@@ -103,6 +153,11 @@ export const projects = [
       'Определены ядро и архитектура модулей',
       'Подготовлен путь миграции с текущих инструментов',
     ],
+    gallery: [
+      '/images/projects/freelance-agency-crm/main.jpg',
+      '/images/projects/freelance-agency-crm/second.jpg',
+      '/images/projects/freelance-agency-crm/third.jpg',
+    ],
   },
   {
     id: 6,
@@ -128,6 +183,11 @@ export const projects = [
       'До 85% типовых вопросов закрываются автоматически',
       'Сокращается нагрузка на кураторов',
       'Повышается скорость обратной связи студентам',
+    ],
+    gallery: [
+      '/images/projects/ai-assistant-for-courses/main.jpg',
+      '/images/projects/ai-assistant-for-courses/second.jpg',
+      '/images/projects/ai-assistant-for-courses/third.jpg',
     ],
   },
   {
@@ -155,6 +215,11 @@ export const projects = [
       'Улучшение SEO-позиций по ключевым запросам',
       'Упрощён сценарий записи на приём',
     ],
+    gallery: [
+      '/images/projects/medical-clinic-landing/main.jpg',
+      '/images/projects/medical-clinic-landing/second.jpg',
+      '/images/projects/medical-clinic-landing/third.jpg',
+    ],
   },
   {
     id: 8,
@@ -180,6 +245,11 @@ export const projects = [
       '500+ студентов в первый месяц',
       'Стабильная выдача контента и тестирования',
       'Централизованная аналитика по прогрессу',
+    ],
+    gallery: [
+      '/images/projects/online-education-platform/main.jpg',
+      '/images/projects/online-education-platform/second.jpg',
+      '/images/projects/online-education-platform/third.jpg',
     ],
   },
 ];

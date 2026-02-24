@@ -63,7 +63,7 @@
 .metaRow { display: flex; align-items: center; gap: 12px; font-family: 'Share Tech Mono'; font-size: 11px; }
 .metaLabel { color: rgba(255,255,255,0.56); letter-spacing: 1px; width: 80px; }
 .metaValue { color: rgba(255,255,255,0.72); }
-.green { color: var(--green); }
+.green { color: var(--available); }
 
 .identityBio {
   padding: 40px;
