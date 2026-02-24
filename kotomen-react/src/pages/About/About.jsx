@@ -153,7 +153,7 @@ export default function About() {
       <SectionHeader tag="01 // IDENTITY" num="PROFILE_LOADED" />
       <div className={s.identityGrid}>
         <motion.div className={s.identityCard} variants={fadeUp(0)} initial="hidden" whileInView="visible" viewport={inViewViewport}>
-          <CornerDecorations />
+          <CornerDecorations corners={['tl', 'bl']} />
           <div className={s.avatarWrapper}>
             <img src={aboutImg} alt="Котоман Степан" className={s.avatarPlaceholder} />
           </div>
@@ -169,24 +169,40 @@ export default function About() {
         </motion.div>
 
         <motion.div className={s.identityBio} variants={fadeUp(1)} initial="hidden" whileInView="visible" viewport={inViewViewport}>
-          <CornerDecorations />
-          <div className={s.bioText}>
-            Я начинал с Python. И тонул в деталях. 5–7 часов на поиск одной ошибки? Было дело.
-            Код писал руками, стек гуглил часами, а сложные задачи выбивали из колеи.
-            Это была <strong>школа боли</strong>, которая научила главному — ценить архитектуру и скорость мысли.<br /><br />
-            Поняв, что бэкенд — это не всё, ушёл во фулстек. <strong>React + FastAPI</strong> дали возможность
-            видеть картинку целиком. Но настоящий прорыв случился, когда я перестал отрицать ИИ.
-            Сначала присматривался, тестировал, сомневался. А теперь — использую как <strong>реактивный двигатель</strong>.<br /><br />
-            Сегодня я:<br /><br />
-            <strong>Проектирую решения.</strong> Рисую дизайн, продумываю логику от первого экрана до сервера.<br /><br />
-            <strong>Управляю процессами и людьми.</strong> В колледже основал и веду «Студенческую лабораторию цифровых технологий и ИИ».
-            Команда обновляется каждые 2–3 месяца — я онборжу новичков, ставлю задачи, проверяю код
-            и слежу, чтобы проект не останавливался ни на день.<br /><br />
-            <strong>Собираю продукты, на которые обычно нужна команда.</strong> Могу закрыть проект соло.
-            А могу собрать команду и повести её за собой.
+          <CornerDecorations corners={['tr', 'br']} />
+          <div className={s.bioBody}>
+            <div className={s.bioSection}>
+              <div className={s.bioLabel}>BACKGROUND</div>
+              <p className={s.bioParagraph}>
+                Начинал с backend на Python, много времени уходило на ручной дебаг и сборку решений с нуля.
+                Этот этап дал основу по архитектуре и системному мышлению.
+              </p>
+            </div>
+
+            <div className={s.bioSection}>
+              <div className={s.bioLabel}>SHIFT / TURNING POINT</div>
+              <p className={s.bioParagraph}>
+                Перешёл во фулстек и собрал стек
+                {' '}
+                <span className={s.inlineTag}>REACT + FASTAPI</span>
+                {' '}
+                для задач end-to-end.
+                Далее добавил AI-инструменты в рабочий процесс, чтобы ускорить прототипирование и реализацию.
+              </p>
+            </div>
+
+            <div className={s.bioSection}>
+              <div className={s.bioLabel}>TODAY</div>
+              <ul className={s.bioList}>
+                <li>Проектирую продукт целиком: интерфейс, API, данные и деплой.</li>
+                <li>Веду командный процесс: онбординг, декомпозиция задач, контроль качества.</li>
+                <li>Закрываю полный цикл solo или как технический лидер команды.</li>
+              </ul>
+            </div>
           </div>
+
           <div className={s.bioValues}>
-            {['СИСТЕМНОЕ МЫШЛЕНИЕ', 'СКОРОСТЬ РАЗРАБОТКИ', 'CODE QUALITY', 'УПРАВЛЕНИЕ КОМАНДОЙ', 'АВТОНОМНОСТЬ'].map(v => (
+            {['SYSTEM THINKING', 'DELIVERY SPEED', 'TEAM LEADERSHIP'].map(v => (
               <span key={v} className={s.valueTag}>{v}</span>
             ))}
           </div>
