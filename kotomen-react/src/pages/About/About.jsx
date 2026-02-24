@@ -15,6 +15,8 @@ const fadeLeft = (i = 0) => ({
   visible: { opacity: 1, x: 0, transition: { delay: i * 0.1, duration: 0.5 } },
 });
 
+const inViewViewport = { once: true, amount: 0.01 };
+
 /* ===== SVG ICONS ===== */
 const IconAISkills = () => (
   <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -150,7 +152,7 @@ export default function About() {
       {/* IDENTITY */}
       <SectionHeader tag="01 // IDENTITY" num="PROFILE_LOADED" />
       <div className={s.identityGrid}>
-        <motion.div className={s.identityCard} variants={fadeUp(0)} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+        <motion.div className={s.identityCard} variants={fadeUp(0)} initial="hidden" whileInView="visible" viewport={inViewViewport}>
           <CornerDecorations />
           <div className={s.avatarWrapper}>
             <img src={aboutImg} alt="Котоман Степан" className={s.avatarPlaceholder} />
@@ -166,7 +168,7 @@ export default function About() {
           </div>
         </motion.div>
 
-        <motion.div className={s.identityBio} variants={fadeUp(1)} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+        <motion.div className={s.identityBio} variants={fadeUp(1)} initial="hidden" whileInView="visible" viewport={inViewViewport}>
           <CornerDecorations />
           <div className={s.bioText}>
             Я начинал с Python. И тонул в деталях. 5–7 часов на поиск одной ошибки? Было дело.
@@ -202,7 +204,7 @@ export default function About() {
               variants={fadeLeft(i)}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={inViewViewport}
             >
               <div className={s.timelineDot} />
               <div className={s.timelineYear}>{item.year}</div>
@@ -228,7 +230,7 @@ export default function About() {
               variants={fadeUp(i)}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
+              viewport={inViewViewport}
             >
               <CornerDecorations corners={['tl', 'tr']} />
               <span className={s.stackCatIcon}>{cat.icon}</span>
@@ -252,7 +254,7 @@ export default function About() {
             variants={fadeUp(i)}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={inViewViewport}
           >
             <CornerDecorations corners={['tl', 'tr']} />
             <span className={s.personalityIcon}>{p.icon}</span>

@@ -16,6 +16,8 @@ const cardVariants = {
   visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.07, duration: 0.5 } }),
 };
 
+const inViewViewport = { once: true, amount: 0.01 };
+
 /* ===== RADAR CHART ===== */
 const skillsData = [
   { label: 'Frontend', value: 0.82 },
@@ -354,7 +356,7 @@ export default function Home() {
               className={s.skillsRadarWrap}
               initial={{ opacity: 0, y: 18, scale: 0.96 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.1 }}
+              viewport={inViewViewport}
               transition={{ duration: 0.7 }}
               style={{ position: 'relative' }}
             >
@@ -368,7 +370,7 @@ export default function Home() {
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
+              viewport={inViewViewport}
               custom={1}
             >
               {techChips.map(chip => (
@@ -387,7 +389,7 @@ export default function Home() {
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
+              viewport={inViewViewport}
               custom={2}
             >
               {techBars.map(bar => (
@@ -398,7 +400,7 @@ export default function Home() {
                       className={s.techBarFill}
                       initial={{ width: 0 }}
                       whileInView={{ width: `${bar.level * 100}%` }}
-                      viewport={{ once: true }}
+                      viewport={inViewViewport}
                       transition={{ duration: 0.9, delay: 0.2 }}
                     />
                   </div>
@@ -412,7 +414,7 @@ export default function Home() {
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={inViewViewport}
             custom={1}
           >
             <div className={s.missionPanel} ref={xpPanelRef}>
@@ -427,7 +429,7 @@ export default function Home() {
                     className={s.missionGroup}
                     initial={{ opacity: 0, y: 12 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
+                    viewport={inViewViewport}
                     transition={{ duration: 0.4, delay: groupIndex * 0.08 }}
                   >
                     <div className={s.missionGroupTitle}>{group.title}</div>
@@ -441,7 +443,7 @@ export default function Home() {
                             data-cursor-hover
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.2 }}
+                            viewport={inViewViewport}
                             transition={{ duration: 0.35, delay: missionIndex * 0.06 }}
                           >
                             <div className={s.questTitle}>{mission.title}</div>
@@ -480,7 +482,7 @@ export default function Home() {
               variants={cardVariants}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
+              viewport={inViewViewport}
               custom={i}
             >
               <CornerDecorations />
@@ -528,20 +530,15 @@ export default function Home() {
           </div>
           <div className={s.contactRight}>
             {stats.map((stat, i) => (
-              <motion.div
+              <div
                 key={stat.label}
                 className={s.statBlock}
                 style={{ position: 'relative' }}
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.1 }}
-                custom={i}
               >
                 <CornerDecorations corners={['tl', 'tr']} />
                 <div className={s.statNum}>{stat.num}</div>
                 <div className={s.statLabel}>{stat.label}</div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

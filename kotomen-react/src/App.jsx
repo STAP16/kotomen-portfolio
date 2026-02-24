@@ -12,12 +12,18 @@ function ScrollToTop() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    const syncInViewObservers = () => {
+      window.dispatchEvent(new Event('scroll'));
+      window.dispatchEvent(new Event('resize'));
+    };
+
     if (hash) {
       const targetId = decodeURIComponent(hash.replace('#', ''));
       const target = document.getElementById(targetId);
 
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        requestAnimationFrame(syncInViewObservers);
         return;
       }
 
@@ -25,12 +31,14 @@ function ScrollToTop() {
         const delayedTarget = document.getElementById(targetId);
         if (delayedTarget) {
           delayedTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          requestAnimationFrame(syncInViewObservers);
         }
       });
       return;
     }
 
     window.scrollTo(0, 0);
+    requestAnimationFrame(syncInViewObservers);
   }, [pathname, hash]);
 
   return null;
