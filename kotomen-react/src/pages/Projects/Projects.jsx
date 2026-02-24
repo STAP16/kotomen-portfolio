@@ -6,24 +6,19 @@ import CornerDecorations from '../../components/CornerDecorations/CornerDecorati
 import s from './Projects.module.css';
 
 const projects = [
-  { id: 1, featured: true, category: 'fullstack', icon: '🏆', status: 'featured', statusLabel: 'FEATURED', cat: 'FULL-STACK · SAAS', title: 'Аналитический дашборд для SaaS-платформы', desc: 'Полный цикл: от исследования аудитории до продакшн-деплоя. Realtime-метрики, кастомные отчёты, ролевая система доступа.', metric: '↑ DAU +120% за 2 месяца после запуска', tags: ['React', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker', 'Figma'], links: [{ label: '[ Live →]', href: '#' }, { label: '[ GitHub ]', href: '#' }], role: 'Design · Frontend · Backend · DevOps' },
-  { id: 2, category: 'devops', icon: '⚙️', status: 'done', statusLabel: 'DONE', cat: 'DEVOPS · AUTOMATION', title: 'CI/CD пайплайн для команды 8 человек', desc: 'Автоматизация деплоя, тестирования и нотификаций. Ноль downtime при обновлениях.', metric: '↓ Деплой с 2 часов до 7 минут', tags: ['GitHub Actions', 'Docker', 'Nginx'], links: [{ label: '[ Case Study ]', href: '#' }], role: 'DevOps' },
-  { id: 3, category: 'frontend design', icon: '💍', status: 'done', statusLabel: 'DONE', cat: 'FRONTEND · E-COMMERCE', title: 'Интернет-магазин ювелирных украшений', desc: 'Полный редизайн и разработка. Анимации, 3D-просмотр украшений, адаптив, Stripe.', metric: '↑ Конверсия +35% после редизайна', tags: ['Next.js', 'Stripe', 'Figma', 'GSAP'], links: [{ label: '[ Live →]', href: '#' }], role: 'Design · Frontend' },
-  { id: 4, category: 'backend', icon: '💳', status: 'done', statusLabel: 'DONE', cat: 'BACKEND · FINTECH', title: 'Платёжный API для маркетплейса', desc: 'Асинхронный сервис обработки платежей. Webhooks, retry-логика, полный аудит транзакций.', metric: '99.9% uptime за 6 месяцев работы', tags: ['FastAPI', 'Redis', 'PostgreSQL', 'Docker'], links: [{ label: '[ Case Study ]', href: '#' }], role: 'Backend · DevOps' },
-  { id: 5, category: 'fullstack', icon: '📋', status: 'wip', statusLabel: 'IN PROGRESS', cat: 'FULL-STACK · SAAS', title: 'CRM для фриланс-агентства', desc: 'Управление клиентами, проектами и финансами. Канбан, трекинг времени, автоматические счета.', metric: '→ MVP через 3 недели', tags: ['React', 'FastAPI', 'PostgreSQL', 'Figma'], links: [{ label: '[ Preview ]', href: '#' }], role: 'Design · Frontend · Backend' },
-  { id: 6, category: 'backend', icon: '🤖', status: 'wip', statusLabel: 'IN PROGRESS', cat: 'BACKEND · AI', title: 'AI-ассистент для онлайн-курсов', desc: 'Telegram-бот, который отвечает на вопросы студентов по материалам курса используя GPT + RAG.', metric: '→ 85% вопросов без участия куратора', tags: ['Python', 'GPT API', 'Telegram', 'RAG'], links: [{ label: '[ GitHub ]', href: '#' }], role: 'Backend · AI' },
-  { id: 7, category: 'frontend design', icon: '🏥', status: 'done', statusLabel: 'DONE', cat: 'FRONTEND · HEALTHCARE', title: 'Лендинг для медицинской клиники', desc: 'Дизайн и разработка. Форма записи с интеграцией CRM, оптимизация под SEO и конверсию.', metric: '↑ Заявок +60% vs старого сайта', tags: ['Next.js', 'Figma', 'SEO'], links: [{ label: '[ Live →]', href: '#' }], role: 'Design · Frontend' },
-  { id: 8, category: 'fullstack', icon: '🎓', status: 'done', statusLabel: 'DONE', cat: 'FULL-STACK · EDTECH', title: 'Платформа для онлайн-курсов', desc: 'Личные кабинеты, видеоплеер, тесты, прогресс студентов, интеграция оплаты.', metric: '↑ 500+ студентов в первый месяц', tags: ['React', 'FastAPI', 'S3', 'Stripe'], links: [{ label: '[ Live →]', href: '#' }], role: 'Full-Stack · Design' },
-  { id: 9, category: 'design', icon: '🎨', status: 'done', statusLabel: 'DONE', cat: 'DESIGN · BRANDING', title: 'Design System для продуктовой команды', desc: 'Компонентная библиотека в Figma + документация. 80+ компонентов, тёмная и светлая темы.', metric: '↓ Время на дизайн новых фич −70%', tags: ['Figma', 'Design Tokens', 'Storybook'], links: [{ label: '[ Figma →]', href: '#' }], role: 'Design' },
+  { id: 1, featured: true, type: 'team', icon: '🏆', status: 'featured', statusLabel: 'FEATURED', cat: 'FULL-STACK · SAAS', title: 'Аналитический дашборд для SaaS-платформы', desc: 'Полный цикл: от исследования аудитории до продакшн-деплоя. Realtime-метрики, кастомные отчёты, ролевая система доступа.', metric: '↑ DAU +120% за 2 месяца после запуска', tags: ['React', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker', 'Figma'], links: [{ label: '[ Live →]', href: '#' }, { label: '[ GitHub ]', href: '#' }], role: 'Frontend · Backend · DevOps' },
+  { id: 3, type: 'personal', icon: '💍', status: 'done', statusLabel: 'DONE', cat: 'FRONTEND · E-COMMERCE', title: 'Интернет-магазин ювелирных украшений', desc: 'Полный редизайн и разработка. Анимации, 3D-просмотр украшений, адаптив, Stripe.', metric: '↑ Конверсия +35% после редизайна', tags: ['React', 'Stripe', 'GSAP'], links: [{ label: '[ Live →]', href: '#' }], role: 'Frontend' },
+  { id: 4, type: 'team', icon: '💳', status: 'done', statusLabel: 'DONE', cat: 'BACKEND · FINTECH', title: 'Платёжный API для маркетплейса', desc: 'Асинхронный сервис обработки платежей. Webhooks, retry-логика, полный аудит транзакций.', metric: '99.9% uptime за 6 месяцев работы', tags: ['FastAPI', 'Redis', 'PostgreSQL', 'Docker'], links: [{ label: '[ Case Study ]', href: '#' }], role: 'Backend' },
+  { id: 5, type: 'team', icon: '📋', status: 'wip', statusLabel: 'IN PROGRESS', cat: 'FULL-STACK · SAAS', title: 'CRM для фриланс-агентства', desc: 'Управление клиентами, проектами и финансами. Канбан, трекинг времени, автоматические счета.', metric: '→ MVP через 3 недели', tags: ['React', 'FastAPI', 'PostgreSQL'], links: [{ label: '[ Preview ]', href: '#' }], role: 'Frontend · Backend' },
+  { id: 6, type: 'personal', icon: '🤖', status: 'wip', statusLabel: 'IN PROGRESS', cat: 'BACKEND · AI', title: 'AI-ассистент для онлайн-курсов', desc: 'Telegram-бот, который отвечает на вопросы студентов по материалам курса используя GPT + RAG.', metric: '→ 85% вопросов без участия куратора', tags: ['Python', 'GPT API', 'Telegram', 'RAG'], links: [{ label: '[ GitHub ]', href: '#' }], role: 'Backend · AI' },
+  { id: 7, type: 'personal', icon: '🏥', status: 'done', statusLabel: 'DONE', cat: 'FRONTEND · HEALTHCARE', title: 'Лендинг для медицинской клиники', desc: 'Разработка лендинга. Форма записи с интеграцией CRM, оптимизация под SEO и конверсию.', metric: '↑ Заявок +60% vs старого сайта', tags: ['React', 'SEO'], links: [{ label: '[ Live →]', href: '#' }], role: 'Frontend' },
+  { id: 8, type: 'team', icon: '🎓', status: 'done', statusLabel: 'DONE', cat: 'FULL-STACK · EDTECH', title: 'Платформа для онлайн-курсов', desc: 'Личные кабинеты, видеоплеер, тесты, прогресс студентов, интеграция оплаты.', metric: '↑ 500+ студентов в первый месяц', tags: ['React', 'FastAPI', 'S3', 'Stripe'], links: [{ label: '[ Live →]', href: '#' }], role: 'Full-Stack' },
 ];
 
 const filters = [
-  { key: 'all', label: '[ ALL ]' },
-  { key: 'fullstack', label: '[ FULL-STACK ]' },
-  { key: 'frontend', label: '[ FRONTEND ]' },
-  { key: 'backend', label: '[ BACKEND ]' },
-  { key: 'devops', label: '[ DEVOPS ]' },
-  { key: 'design', label: '[ DESIGN ]' },
+  { key: 'all', label: '[ Все ]' },
+  { key: 'team', label: '[ Командные ]' },
+  { key: 'personal', label: '[ Личные ]' },
 ];
 
 const cardVariant = {
@@ -36,7 +31,7 @@ export default function Projects() {
   const [active, setActive] = useState('all');
 
   const filtered = projects.filter(p =>
-    active === 'all' || p.category.includes(active)
+    active === 'all' || p.type === active
   );
 
   const statusClass = (status) => {
@@ -58,16 +53,6 @@ export default function Projects() {
           <p className={s.pageSubtitle}>Реальные продукты с измеримыми результатами. От идеи до деплоя.</p>
           <div className={s.projectCount}>20+<span>ПРОЕКТОВ ЗАПУЩЕНО</span></div>
         </div>
-      </div>
-
-      {/* STATS */}
-      <div className={s.statsRow}>
-        {[{ num: '12', label: 'FULL-STACK' }, { num: '5', label: 'ТОЛЬКО FRONTEND' }, { num: '4', label: 'API / BACKEND' }, { num: '3', label: 'В ПРОЦЕССЕ' }].map(st => (
-          <div key={st.label} className={s.statMini}>
-            <div className={s.statMiniNum}>{st.num}</div>
-            <div className={s.statMiniLabel}>{st.label}</div>
-          </div>
-        ))}
       </div>
 
       {/* FILTERS */}

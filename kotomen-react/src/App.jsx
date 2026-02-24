@@ -9,10 +9,30 @@ import Projects from './pages/Projects/Projects';
 
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
+
   useEffect(() => {
+    if (hash) {
+      const targetId = decodeURIComponent(hash.replace('#', ''));
+      const target = document.getElementById(targetId);
+
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+
+      requestAnimationFrame(() => {
+        const delayedTarget = document.getElementById(targetId);
+        if (delayedTarget) {
+          delayedTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+      return;
+    }
+
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [pathname, hash]);
+
   return null;
 }
 

@@ -191,10 +191,10 @@
 .btnPrimary {
   font-family: 'Share Tech Mono'; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
   padding: 16px 32px; background: transparent; border: 1px solid var(--cyan); color: var(--cyan);
-  text-decoration: none; cursor: none; position: relative; overflow: hidden; transition: color 0.3s; white-space: nowrap;
+  text-decoration: none; cursor: none; position: relative; overflow: hidden; transition: color 0.3s; white-space: nowrap; z-index: 0;
 }
-.btnPrimary::before { content: ''; position: absolute; left: -100%; top: 0; bottom: 0; width: 100%; background: var(--cyan); transition: left 0.3s ease; z-index: -1; }
-.btnPrimary:hover::before { left: 0; }
+.btnPrimary::before { content: ''; position: absolute; inset: 0; background: var(--cyan); transform: translateX(-101%); transform-origin: left; transition: transform 0.3s ease; z-index: -1; }
+.btnPrimary:hover::before { transform: translateX(0); }
 .btnPrimary:hover { color: var(--bg); }
 
 @media (max-width: 900px) {
