@@ -176,20 +176,75 @@ const missionGroups = [
   },
 ];
 
+/* ===== SVG ICONS ===== */
+const IconAI = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="6" y="4" width="20" height="16" rx="3" stroke="currentColor" strokeWidth="1.6"/>
+    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+    <circle cx="20" cy="12" r="2" fill="currentColor"/>
+    <path d="M10 24L12 20H20L22 24" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M14 28H18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+    <path d="M4 10H6M26 10H28M4 14H6M26 14H28" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.5"/>
+    <path d="M13 7L16 4L19 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
+  </svg>
+);
+
+const IconFrontend = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 8L5 16L12 24" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M20 8L27 16L20 24" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M18 6L14 26" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" opacity="0.6"/>
+  </svg>
+);
+
+const IconBackend = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="5" y="4" width="22" height="7" rx="2" stroke="currentColor" strokeWidth="1.6"/>
+    <rect x="5" y="13" width="22" height="7" rx="2" stroke="currentColor" strokeWidth="1.6"/>
+    <rect x="5" y="22" width="22" height="7" rx="2" stroke="currentColor" strokeWidth="1.6"/>
+    <circle cx="9" cy="7.5" r="1.2" fill="currentColor"/>
+    <circle cx="9" cy="16.5" r="1.2" fill="currentColor"/>
+    <circle cx="9" cy="25.5" r="1.2" fill="currentColor"/>
+    <path d="M14 7.5H23M14 16.5H20M14 25.5H21" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.4"/>
+  </svg>
+);
+
+const IconDevOps = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 4L28 11V21L16 28L4 21V11L16 4Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/>
+    <path d="M16 4V16M16 16L28 11M16 16L4 11" stroke="currentColor" strokeWidth="1.2" opacity="0.4"/>
+    <path d="M10 7.5L22 14.5" stroke="currentColor" strokeWidth="1" opacity="0.25"/>
+    <path d="M16 16V28" stroke="currentColor" strokeWidth="1.2" opacity="0.4"/>
+    <circle cx="16" cy="16" r="3" stroke="currentColor" strokeWidth="1.4" fill="none"/>
+    <circle cx="16" cy="16" r="1" fill="currentColor"/>
+  </svg>
+);
+
+const IconTelegram = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2 3.1L2.4 10.5C1.5 10.9 1.5 11.5 2.2 11.7L7 13.2L18.4 6.5C18.9 6.2 19.4 6.4 19 6.7L9.6 15.2L9.2 20.1C9.7 20.1 9.9 19.9 10.2 19.6L12.8 17.1L17.7 20.7C18.6 21.2 19.2 20.9 19.4 19.9L22.4 4.5C22.7 3.3 22 2.7 21.2 3.1Z" fill="currentColor"/>
+  </svg>
+);
+
+const IconEmail = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.6"/>
+    <path d="M3 7L12 13L21 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const IconGitHub = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.48 2 12C2 16.42 4.87 20.17 8.84 21.5C9.34 21.58 9.5 21.27 9.5 21V19.31C6.73 19.91 6.14 17.97 6.14 17.97C5.68 16.81 5.03 16.5 5.03 16.5C4.12 15.88 5.1 15.9 5.1 15.9C6.1 15.97 6.63 16.93 6.63 16.93C7.5 18.45 8.97 18 9.54 17.76C9.63 17.11 9.89 16.67 10.17 16.42C7.95 16.17 5.62 15.31 5.62 11.5C5.62 10.39 6 9.5 6.65 8.79C6.55 8.54 6.2 7.5 6.75 6.15C6.75 6.15 7.59 5.88 9.5 7.17C10.29 6.95 11.15 6.84 12 6.84C12.85 6.84 13.71 6.95 14.5 7.17C16.41 5.88 17.25 6.15 17.25 6.15C17.8 7.5 17.45 8.54 17.35 8.79C18 9.5 18.38 10.39 18.38 11.5C18.38 15.32 16.04 16.16 13.81 16.41C14.17 16.72 14.5 17.33 14.5 18.26V21C14.5 21.27 14.66 21.59 15.17 21.5C19.14 20.16 22 16.42 22 12C22 6.48 17.52 2 12 2Z" fill="currentColor"/>
+  </svg>
+);
+
 /* ===== OTHER DATA ===== */
 const roles = [
-  { icon: '🎨', num: '01', label: 'ROLE_01', title: 'UI/UX Дизайнер', desc: 'Проектирую интерфейсы, которые не просто красивы — они конвертируют. От вайрфрейма до готового дизайн-макета с учётом пользовательского опыта.', tools: ['Figma', 'Prototyping', 'Design Systems', 'UX Research'] },
-  { icon: '⚡', num: '02', label: 'ROLE_02', title: 'Frontend Dev', desc: 'Воплощаю дизайн в живой интерфейс. React-приложения с анимациями, адаптивной вёрсткой и оптимизацией под реальных пользователей.', tools: ['React', 'TypeScript', 'Next.js', 'Tailwind', 'CSS/GSAP'] },
-  { icon: '🔧', num: '03', label: 'ROLE_03', title: 'Backend Dev', desc: 'Проектирую и строю API, базы данных и серверную логику. FastAPI, PostgreSQL, аутентификация, оптимизация запросов — от MVP до продакшна.', tools: ['FastAPI', 'Python', 'PostgreSQL', 'Redis', 'REST/WebSocket'] },
-  { icon: '🚀', num: '04', label: 'ROLE_04', title: 'DevOps', desc: 'Разворачиваю и поддерживаю инфраструктуру. Docker, релизный контур и деплой на сервер — проект едет в продакшн без лишних вопросов.', tools: ['Docker', 'Nginx', 'VPS', 'Linux'] },
-];
-
-const flowSteps = [
-  { icon: '💡', name: 'BRIEF', desc: 'Разбираем задачу,\nцели, аудиторию,\nсроки' },
-  { icon: '📐', name: 'DESIGN', desc: 'Прототип и\nUI в Figma.\nСогласование' },
-  { icon: '⚙️', name: 'BUILD', desc: 'Frontend + Backend.\nИтерации,\nдемо каждые 3 дня' },
-  { icon: '🔍', name: 'TEST', desc: 'QA, правки,\nоптимизация\nпроизводительности' },
-  { icon: '🚀', name: 'DEPLOY', desc: 'Деплой, настройка\nинфраструктуры,\nпередача проекта' },
+  { icon: <IconAI />, num: '01', label: 'ROLE_01', title: 'AI-Дизайн', desc: 'Генерация идей, компонентов и концепций с помощью AI-сервисов. Быстрое прототипирование и визуализация решений.', tools: ['Midjourney', 'DALL·E', 'Stable Diffusion', 'ChatGPT'] },
+  { icon: <IconFrontend />, num: '02', label: 'ROLE_02', title: 'Frontend Dev', desc: 'Воплощаю дизайн в живой интерфейс. React-приложения с анимациями, адаптивной вёрсткой и оптимизацией под реальных пользователей.', tools: ['React', 'JavaScript', 'Next.js', 'Tailwind'] },
+  { icon: <IconBackend />, num: '03', label: 'ROLE_03', title: 'Backend Dev', desc: 'Проектирую и строю API, базы данных и серверную логику. FastAPI, PostgreSQL, аутентификация, оптимизация запросов — от MVP до продакшна.', tools: ['FastAPI', 'Python', 'PostgreSQL', 'Redis', 'REST/WebSocket'] },
+  { icon: <IconDevOps />, num: '04', label: 'ROLE_04', title: 'DevOps', desc: 'Разворачиваю и поддерживаю инфраструктуру. Docker, релизный контур и деплой на сервер — проект едет в продакшн без лишних вопросов.', tools: ['Docker', 'Nginx', 'VPS', 'Linux'] },
 ];
 
 const stats = [
@@ -441,57 +496,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FLOW */}
-      <section id="flow" className={s.flow}>
-        <SectionHeader tag="03 // PROCESS" num="WORKFLOW_ACTIVE" />
-        <h2 className={s.sectionTitle}>Как я работаю</h2>
-        <div className={s.flowContainer} style={{ position: 'relative' }}>
-          <CornerDecorations />
-          <div className={s.flowSteps}>
-            {flowSteps.map((step, i) => (
-              <motion.div
-                key={step.name}
-                className={s.flowStep}
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.1 }}
-                custom={i}
-              >
-                <div className={s.flowDot}>{step.icon}</div>
-                <div className={s.flowName}>{step.name}</div>
-                <div className={s.flowDesc}>{step.desc.split('\n').map((line, j) => <span key={j}>{line}<br /></span>)}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CONTACT */}
       <section id="contact" className={s.contact}>
-        <SectionHeader tag="04 // CONTACT" num="INIT_HANDSHAKE" />
+        <SectionHeader tag="03 // CONTACT" num="INIT_HANDSHAKE" />
         <div className={s.contactGrid}>
           <div className={s.contactPanel} style={{ position: 'relative' }}>
             <CornerDecorations />
             <div className={s.contactBig}>Запустим<br /><span className={s.accent}>ваш</span><br />продукт?</div>
             <div className={s.contactSub}>Беру 1–2 проекта в месяц. Работаю с командами и напрямую с основателями стартапов.</div>
-            <div className={s.availability}>
+            <div className={s.availability} style={{ visibility: 'hidden' }}>
               <div className={s.statusDot} />
-              ДОСТУПЕН ДЛЯ НОВЫХ ПРОЕКТОВ — ФЕВРАЛЬ 2025
             </div>
             <div className={s.contactLinks}>
               <a href="https://t.me/kotomen" className={s.contactLink} target="_blank" rel="noreferrer">
-                <span className={s.contactLinkIcon}>✈️</span>
+                <span className={s.contactLinkIcon}><IconTelegram /></span>
                 Telegram — @kotomen
                 <span className={s.contactLinkArrow}>→</span>
               </a>
               <a href="mailto:hello@kotomen.dev" className={s.contactLink}>
-                <span className={s.contactLinkIcon}>📧</span>
+                <span className={s.contactLinkIcon}><IconEmail /></span>
                 hello@kotomen.dev
                 <span className={s.contactLinkArrow}>→</span>
               </a>
               <a href="#" className={s.contactLink}>
-                <span className={s.contactLinkIcon}>🐙</span>
+                <span className={s.contactLinkIcon}><IconGitHub /></span>
                 GitHub / Portfolio
                 <span className={s.contactLinkArrow}>→</span>
               </a>
