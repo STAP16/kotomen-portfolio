@@ -17,7 +17,7 @@ export default function Header() {
         <Link to="/" className={`${styles.navLink} ${isHome ? styles.active : ''}`}>Главная</Link>
         <Link to="/about" className={`${styles.navLink} ${isActive('/about')}`}>О себе</Link>
         <Link to="/projects" className={`${styles.navLink} ${isActive('/projects')}`}>Проекты</Link>
-        <Link to="/blog" className={`${styles.navLink} ${isActive('/blog')}`}>Блог</Link>
+
         <Link to="/#contact" className={styles.navLink}>Контакт</Link>
       </div>
       <div className={styles.navStatus}>

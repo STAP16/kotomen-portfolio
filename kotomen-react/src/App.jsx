@@ -6,7 +6,7 @@ import CustomCursor from './components/CustomCursor/CustomCursor';
 import Home from './pages/Home/Home';
 import About from './pages/About/About';
 import Projects from './pages/Projects/Projects';
-import Blog from './pages/Blog/Blog';
+
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -20,7 +20,7 @@ const footerCopy = {
   '/': '© 2025 // ALL SYSTEMS OPERATIONAL',
   '/about': '© 2025 // about.exe — LOADED',
   '/projects': '© 2025 // projects.gallery — 9 LOADED',
-  '/blog': '© 2025 // blog.log — 8 POSTS',
+
 };
 
 export default function App() {
@@ -36,7 +36,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/projects" element={<Projects />} />
-        <Route path="/blog" element={<Blog />} />
+
       </Routes>
       <Footer copy={copy} />
     </>

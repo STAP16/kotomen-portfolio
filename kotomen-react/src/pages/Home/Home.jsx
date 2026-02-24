@@ -209,14 +209,15 @@ const IconBackend = () => (
   </svg>
 );
 
-const IconDevOps = () => (
+const IconLeadership = () => (
   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M16 4L28 11V21L16 28L4 21V11L16 4Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/>
-    <path d="M16 4V16M16 16L28 11M16 16L4 11" stroke="currentColor" strokeWidth="1.2" opacity="0.4"/>
-    <path d="M10 7.5L22 14.5" stroke="currentColor" strokeWidth="1" opacity="0.25"/>
-    <path d="M16 16V28" stroke="currentColor" strokeWidth="1.2" opacity="0.4"/>
-    <circle cx="16" cy="16" r="3" stroke="currentColor" strokeWidth="1.4" fill="none"/>
-    <circle cx="16" cy="16" r="1" fill="currentColor"/>
+    <circle cx="16" cy="9" r="4" stroke="currentColor" strokeWidth="1.6"/>
+    <path d="M10 27V25C10 22.24 12.24 20 15 20H17C19.76 20 22 22.24 22 25V27" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+    <circle cx="6" cy="14" r="2.5" stroke="currentColor" strokeWidth="1.2" opacity="0.5"/>
+    <path d="M3 25V24C3 22.34 4.34 21 6 21" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.5"/>
+    <circle cx="26" cy="14" r="2.5" stroke="currentColor" strokeWidth="1.2" opacity="0.5"/>
+    <path d="M29 25V24C29 22.34 27.66 21 26 21" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.5"/>
+    <path d="M16 4L17 2L18 4" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" opacity="0.4"/>
   </svg>
 );
 
@@ -244,7 +245,7 @@ const roles = [
   { icon: <IconAI />, num: '01', label: 'ROLE_01', title: 'AI-Дизайн', desc: 'Генерация идей, компонентов и концепций с помощью AI-сервисов. Быстрое прототипирование и визуализация решений.', tools: ['Midjourney', 'DALL·E', 'Stable Diffusion', 'ChatGPT'] },
   { icon: <IconFrontend />, num: '02', label: 'ROLE_02', title: 'Frontend Dev', desc: 'Воплощаю дизайн в живой интерфейс. React-приложения с анимациями, адаптивной вёрсткой и оптимизацией под реальных пользователей.', tools: ['React', 'JavaScript', 'Next.js', 'Tailwind'] },
   { icon: <IconBackend />, num: '03', label: 'ROLE_03', title: 'Backend Dev', desc: 'Проектирую и строю API, базы данных и серверную логику. FastAPI, PostgreSQL, аутентификация, оптимизация запросов — от MVP до продакшна.', tools: ['FastAPI', 'Python', 'PostgreSQL', 'Redis', 'REST/WebSocket'] },
-  { icon: <IconDevOps />, num: '04', label: 'ROLE_04', title: 'DevOps', desc: 'Разворачиваю и поддерживаю инфраструктуру. Docker, релизный контур и деплой на сервер — проект едет в продакшн без лишних вопросов.', tools: ['Docker', 'Nginx', 'VPS', 'Linux'] },
+  { icon: <IconLeadership />, num: '04', label: 'ROLE_04', title: 'Лидерство', desc: 'Веду команду, онборжу новичков, общаюсь с заказчиком. Умею декомпозировать задачи, выстраивать процессы и держать ритм проекта даже при смене состава.', tools: ['Управление', 'Soft Skills', 'Менторство', 'Коммуникация'] },
 ];
 
 const stats = [
