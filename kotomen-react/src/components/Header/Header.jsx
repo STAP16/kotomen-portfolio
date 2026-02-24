@@ -4,6 +4,7 @@ import styles from './Header.module.css';
 export default function Header() {
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const isProjects = location.pathname.startsWith('/projects');
 
   const isActive = (path) => location.pathname === path ? styles.active : '';
 
@@ -16,7 +17,7 @@ export default function Header() {
       <div className={styles.navLinks}>
         <Link to="/" className={`${styles.navLink} ${isHome ? styles.active : ''}`}>Главная</Link>
         <Link to="/about" className={`${styles.navLink} ${isActive('/about')}`}>О себе</Link>
-        <Link to="/projects" className={`${styles.navLink} ${isActive('/projects')}`}>Проекты</Link>
+        <Link to="/projects" className={`${styles.navLink} ${isProjects ? styles.active : ''}`}>Проекты</Link>
       </div>
       <div className={styles.navStatus}>
         <div className={styles.statusDot} />
