@@ -46,7 +46,14 @@ export default function ProjectDetails() {
           <div className={`${s.imageCard} ${s.imageMain}`}>
             <CornerDecorations />
             {mainImg ? (
-              <img src={mainImg} alt={`${project.title} preview main`} className={s.image} />
+              <img
+                src={mainImg}
+                alt={`${project.title} preview main`}
+                className={s.image}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+              />
             ) : (
               <div className={s.placeholder}>
                 <span className={s.placeholderIcon}>{project.icon}</span>
@@ -58,7 +65,13 @@ export default function ProjectDetails() {
           <div className={s.bottomRow}>
             <div className={s.imageCard}>
               {secondImg ? (
-                <img src={secondImg} alt={`${project.title} preview second`} className={s.image} />
+                <img
+                  src={secondImg}
+                  alt={`${project.title} preview second`}
+                  className={s.image}
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
                 <div className={s.placeholder}>
                   <span className={s.placeholderIcon}>{project.icon}</span>
@@ -68,7 +81,13 @@ export default function ProjectDetails() {
             </div>
             <div className={s.imageCard}>
               {thirdImg ? (
-                <img src={thirdImg} alt={`${project.title} preview third`} className={s.image} />
+                <img
+                  src={thirdImg}
+                  alt={`${project.title} preview third`}
+                  className={s.image}
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
                 <div className={s.placeholder}>
                   <span className={s.placeholderIcon}>{project.icon}</span>

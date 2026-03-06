@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import SectionHeader from '../../components/SectionHeader/SectionHeader';
 import CornerDecorations from '../../components/CornerDecorations/CornerDecorations';
 import aboutImg from '../../assets/About-img.png';
@@ -152,10 +152,16 @@ export default function About() {
       {/* IDENTITY */}
       <SectionHeader tag="01 // IDENTITY" num="PROFILE_LOADED" />
       <div className={s.identityGrid}>
-        <motion.div className={s.identityCard} variants={fadeUp(0)} initial="hidden" whileInView="visible" viewport={inViewViewport}>
+        <Motion.div className={s.identityCard} variants={fadeUp(0)} initial="hidden" whileInView="visible" viewport={inViewViewport}>
           <CornerDecorations corners={['tl', 'bl']} />
           <div className={s.avatarWrapper}>
-            <img src={aboutImg} alt="Котоман Степан" className={s.avatarPlaceholder} />
+            <img
+              src={aboutImg}
+              alt="Котоман Степан"
+              className={s.avatarPlaceholder}
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <div className={s.identityName}>Котоман Степан</div>
           <div className={s.identityRole}>FULL-STACK PRODUCT ENGINEER</div>
@@ -166,9 +172,9 @@ export default function About() {
             <div className={s.metaRow}><span className={s.metaLabel}>ПОРТФОЛИО</span><span className={s.metaValue}>Реальные кейсы</span></div>
             <div className={s.metaRow}><span className={s.metaLabel}>TELEGRAM</span><span className={s.metaValue}>@stap17</span></div>
           </div>
-        </motion.div>
+        </Motion.div>
 
-        <motion.div className={s.identityBio} variants={fadeUp(1)} initial="hidden" whileInView="visible" viewport={inViewViewport}>
+        <Motion.div className={s.identityBio} variants={fadeUp(1)} initial="hidden" whileInView="visible" viewport={inViewViewport}>
           <CornerDecorations corners={['tr', 'br']} />
           <div className={s.bioBody}>
             <div className={s.bioSection}>
@@ -206,7 +212,7 @@ export default function About() {
               <span key={v} className={s.valueTag}>{v}</span>
             ))}
           </div>
-        </motion.div>
+        </Motion.div>
       </div>
 
       {/* TIMELINE */}
@@ -214,7 +220,7 @@ export default function About() {
         <SectionHeader tag="02 // ROADMAP" num="HISTORY_LOG" />
         <div className={s.timeline}>
           {timeline.map((item, i) => (
-            <motion.div
+            <Motion.div
               key={item.year}
               className={s.timelineItem}
               variants={fadeLeft(i)}
@@ -229,7 +235,7 @@ export default function About() {
               <div className={s.timelineTags}>
                 {item.tags.map(t => <span key={t} className={s.ttag}>{t}</span>)}
               </div>
-            </motion.div>
+            </Motion.div>
           ))}
         </div>
       </div>
@@ -239,7 +245,7 @@ export default function About() {
         <SectionHeader tag="03 // TECH STACK" num="MODULES_LOADED" />
         <div className={s.stackCategories}>
           {stack.map((cat, i) => (
-            <motion.div
+            <Motion.div
               key={cat.name}
               className={s.stackCat}
               data-cursor-hover
@@ -254,7 +260,7 @@ export default function About() {
               <div className={s.stackItems}>
                 {cat.items.map(item => <span key={item} className={s.stackItem}>{item}</span>)}
               </div>
-            </motion.div>
+            </Motion.div>
           ))}
         </div>
       </div>
@@ -263,7 +269,7 @@ export default function About() {
       <SectionHeader tag="04 // APPROACH" num="TRAITS_DEFINED" />
       <div className={s.personalityGrid}>
         {personality.map((p, i) => (
-          <motion.div
+          <Motion.div
             key={p.title}
             className={s.personalityCard}
             data-cursor-hover
@@ -276,7 +282,7 @@ export default function About() {
             <span className={s.personalityIcon}>{p.icon}</span>
             <div className={s.personalityTitle}>{p.title}</div>
             <div className={s.personalityDesc}>{p.desc}</div>
-          </motion.div>
+          </Motion.div>
         ))}
       </div>
 

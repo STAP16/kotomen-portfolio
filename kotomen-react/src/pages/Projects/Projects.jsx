@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion as Motion } from 'framer-motion';
 import CornerDecorations from '../../components/CornerDecorations/CornerDecorations';
 import { projects } from '../../data/projects';
 import s from './Projects.module.css';
@@ -21,8 +21,9 @@ export default function Projects() {
   const [active, setActive] = useState('all');
   const navigate = useNavigate();
 
-  const filtered = projects.filter(p =>
-    active === 'all' || p.type === active
+  const filtered = useMemo(
+    () => projects.filter((project) => active === 'all' || project.type === active),
+    [active],
   );
 
   const statusClass = (status) => {
@@ -69,7 +70,7 @@ export default function Projects() {
       <div className={s.projectsGrid}>
         <AnimatePresence mode="popLayout">
           {filtered.map((p, i) => (
-            <motion.div
+            <Motion.div
               key={p.id}
               className={`${s.projectCard} ${p.featured ? s.featured : ''}`}
               data-cursor-hover
@@ -97,6 +98,7 @@ export default function Projects() {
                     alt={`${p.title} cover`}
                     className={s.projectCoverImage}
                     loading="lazy"
+                    decoding="async"
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                   />
                 ) : null}
@@ -131,7 +133,7 @@ export default function Projects() {
                   <span className={s.cardRole}>{p.role}</span>
                 </div>
               </div>
-            </motion.div>
+            </Motion.div>
           ))}
         </AnimatePresence>
       </div>

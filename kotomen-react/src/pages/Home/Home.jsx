@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import SectionHeader from '../../components/SectionHeader/SectionHeader';
 import CornerDecorations from '../../components/CornerDecorations/CornerDecorations';
 import meImage from '../../assets/Me_wo_bg.png';
@@ -33,7 +33,7 @@ const skillsData = [
   { label: 'Product Thinking', value: 0.77 },
 ];
 
-function RadarChart({ size = 460 }) {
+const RadarChart = memo(function RadarChart({ size = 460 }) {
   const canvasRef = useRef(null);
   const animProgress = useRef(0);
 
@@ -128,7 +128,8 @@ function RadarChart({ size = 460 }) {
       });
     }
 
-    let rafId;
+    let rafId = null;
+    let timeoutId = null;
     function animate() {
       if (animProgress.current < 1) {
         animProgress.current += 0.015;
@@ -139,19 +140,20 @@ function RadarChart({ size = 460 }) {
 
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && animProgress.current === 0) {
-        setTimeout(animate, 400);
+        timeoutId = setTimeout(animate, 400);
       }
     });
     observer.observe(canvas);
 
     return () => {
       observer.disconnect();
+      if (timeoutId) clearTimeout(timeoutId);
       cancelAnimationFrame(rafId);
     };
   }, [size]);
 
   return <canvas ref={canvasRef} className={s.skillsRadarCanvas} />;
-}
+});
 
 /* ===== SKILLS DATA ===== */
 const techChips = ['React', 'Next.js', 'FastAPI', 'PostgreSQL', 'Docker'];
@@ -269,12 +271,24 @@ export default function Home() {
   const xpTarget = 8420;
 
   useEffect(() => {
-    const onScroll = () => {
+    let rafId = null;
+
+    const updateParallax = () => {
       setSkillsParallax(window.scrollY * 0.08);
+      rafId = null;
     };
+
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(updateParallax);
+    };
+
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   useEffect(() => {
@@ -312,41 +326,48 @@ export default function Home() {
     };
   }, []);
 
-  const skillsSectionStyle = { '--skills-parallax': `${skillsParallax}px` };
+  const skillsSectionStyle = useMemo(() => ({ '--skills-parallax': `${skillsParallax}px` }), [skillsParallax]);
 
   return (
     <>
       {/* HERO */}
       <section id="hero" className={s.hero}>
         <div className={s.heroLeft}>
-          <motion.div className={s.heroTerminal} variants={heroFadeUp} initial="hidden" animate="visible" custom={0}>
+          <Motion.div className={s.heroTerminal} variants={heroFadeUp} initial="hidden" animate="visible" custom={0}>
             <span>~</span> kotomen@prod:~$ <span>whoami</span>
-          </motion.div>
-          <motion.h1 className={s.heroName} variants={heroFadeUp} initial="hidden" animate="visible" custom={1}>
+          </Motion.div>
+          <Motion.h1 className={s.heroName} variants={heroFadeUp} initial="hidden" animate="visible" custom={1}>
             FULL<span className={s.accent}>STACK</span><br />PRODUCT<br />ENGINEER
-          </motion.h1>
-          <motion.p className={s.heroTagline} variants={heroFadeUp} initial="hidden" animate="visible" custom={2}>
+          </Motion.h1>
+          <Motion.p className={s.heroTagline} variants={heroFadeUp} initial="hidden" animate="visible" custom={2}>
             Один человек — полный цикл продукта
-          </motion.p>
-          <motion.p className={s.heroDesc} variants={heroFadeUp} initial="hidden" animate="visible" custom={3}>
+          </Motion.p>
+          <Motion.p className={s.heroDesc} variants={heroFadeUp} initial="hidden" animate="visible" custom={3}>
             Раньше кодил всё руками. Теперь совмещаю инженерное мышление
             с AI-инструментами — быстрее, лучше, от идеи до деплоя.
             Закрываю задачи, на которые обычно нужна целая команда.
-          </motion.p>
-          <motion.div className={s.heroCta} variants={heroFadeUp} initial="hidden" animate="visible" custom={4}>
+          </Motion.p>
+          <Motion.div className={s.heroCta} variants={heroFadeUp} initial="hidden" animate="visible" custom={4}>
             <a href="#contact" className={s.btnPrimary}>[ Запустить проект ]</a>
             <Link to="/projects" className={s.btnSecondary}>[ Посмотреть работы ]</Link>
-          </motion.div>
+          </Motion.div>
         </div>
-        <motion.div className={s.heroRight} variants={heroFadeUp} initial="hidden" animate="visible" custom={3}>
+        <Motion.div className={s.heroRight} variants={heroFadeUp} initial="hidden" animate="visible" custom={3}>
           <div className={s.heroAvatarWrap} style={{ position: 'relative' }}>
             <CornerDecorations />
             <div className={s.heroAvatarLabel}>Котоман Степан</div>
             <div className={s.heroAvatarCircle}>
-              <img src={meImage} alt="Kotomen portrait" className={s.heroAvatarImage} />
+              <img
+                src={meImage}
+                alt="Kotomen portrait"
+                className={s.heroAvatarImage}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+              />
             </div>
           </div>
-        </motion.div>
+        </Motion.div>
       </section>
 
       {/* ===== SKILLS DASHBOARD ===== */}
@@ -356,7 +377,7 @@ export default function Home() {
 
         <div className={s.skillsLayout}>
           <div className={s.skillsLeft}>
-            <motion.div
+            <Motion.div
               className={s.skillsRadarWrap}
               initial={{ opacity: 0, y: 18, scale: 0.96 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -367,9 +388,9 @@ export default function Home() {
               <CornerDecorations />
               <div className={s.skillsRadarHeader}>TACTICAL_RADAR.exe</div>
               <RadarChart size={460} />
-            </motion.div>
+            </Motion.div>
 
-            <motion.div
+            <Motion.div
               className={s.techChips}
               variants={fadeUp}
               initial="hidden"
@@ -386,9 +407,9 @@ export default function Home() {
                   {chip}
                 </span>
               ))}
-            </motion.div>
+            </Motion.div>
 
-            <motion.div
+            <Motion.div
               className={s.techBars}
               variants={fadeUp}
               initial="hidden"
@@ -400,7 +421,7 @@ export default function Home() {
                 <div key={bar.name} className={s.techBarRow}>
                   <span className={s.techBarLabel}>{bar.name}</span>
                   <div className={s.techBarTrack}>
-                    <motion.div
+                    <Motion.div
                       className={s.techBarFill}
                       initial={{ width: 0 }}
                       whileInView={{ width: `${bar.level * 100}%` }}
@@ -410,10 +431,10 @@ export default function Home() {
                   </div>
                 </div>
               ))}
-            </motion.div>
+            </Motion.div>
           </div>
 
-          <motion.div
+          <Motion.div
             className={s.skillsRight}
             variants={fadeUp}
             initial="hidden"
@@ -428,7 +449,7 @@ export default function Home() {
 
               <div className={s.missionGroups}>
                 {missionGroups.map((group, groupIndex) => (
-                  <motion.div
+                  <Motion.div
                     key={group.id}
                     className={s.missionGroup}
                     initial={{ opacity: 0, y: 12 }}
@@ -441,7 +462,7 @@ export default function Home() {
                       {group.missions.map((mission, missionIndex) => {
                         const progress = mission.total ? (mission.current / mission.total) * 100 : 0;
                         return (
-                          <motion.div
+                          <Motion.div
                             key={mission.id}
                             className={s.questCard}
                             data-cursor-hover
@@ -461,15 +482,15 @@ export default function Home() {
                                 </div>
                               </>
                             )}
-                          </motion.div>
+                          </Motion.div>
                         );
                       })}
                     </div>
-                  </motion.div>
+                  </Motion.div>
                 ))}
               </div>
             </div>
-          </motion.div>
+          </Motion.div>
         </div>
       </section>
 
@@ -479,7 +500,7 @@ export default function Home() {
         <h2 className={s.sectionTitle}>Четыре роли.<br />Один специалист.</h2>
         <div className={s.rolesGrid}>
           {roles.map((role, i) => (
-            <motion.div
+            <Motion.div
               key={role.num}
               className={s.roleCard}
               data-cursor-hover
@@ -498,7 +519,7 @@ export default function Home() {
               <div className={s.roleTools}>
                 {role.tools.map(t => <span key={t} className={s.toolTag}>{t}</span>)}
               </div>
-            </motion.div>
+            </Motion.div>
           ))}
         </div>
       </section>
@@ -533,7 +554,7 @@ export default function Home() {
             </div>
           </div>
           <div className={s.contactRight}>
-            {stats.map((stat, i) => (
+            {stats.map((stat) => (
               <div
                 key={stat.label}
                 className={s.statBlock}

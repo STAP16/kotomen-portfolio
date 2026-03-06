@@ -6,10 +6,18 @@ export default function CustomCursor() {
   const ringRef = useRef(null);
   const mouse = useRef({ x: 0, y: 0 });
   const ringPos = useRef({ x: 0, y: 0 });
+  const isHoverState = useRef(false);
 
   useEffect(() => {
+    const supportsFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!supportsFinePointer || prefersReducedMotion) return undefined;
+
     const cursor = cursorRef.current;
     const ring = ringRef.current;
+    if (!cursor || !ring) return undefined;
+
+    let rafId = null;
 
     const onMouseMove = (e) => {
       mouse.current.x = e.clientX;
@@ -23,37 +31,54 @@ export default function CustomCursor() {
       ringPos.current.y += (mouse.current.y - ringPos.current.y - 15) * 0.12;
       ring.style.left = ringPos.current.x + 'px';
       ring.style.top = ringPos.current.y + 'px';
-      requestAnimationFrame(animateRing);
+      rafId = requestAnimationFrame(animateRing);
     };
 
-    const onEnter = () => {
+    const setHover = () => {
+      if (isHoverState.current) return;
+      isHoverState.current = true;
       cursor.style.transform = 'scale(2)';
       ring.style.transform = 'scale(1.5)';
       ring.style.opacity = '1';
     };
-    const onLeave = () => {
+
+    const clearHover = () => {
+      if (!isHoverState.current) return;
+      isHoverState.current = false;
       cursor.style.transform = 'scale(1)';
       ring.style.transform = 'scale(1)';
       ring.style.opacity = '0.5';
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    animateRing();
-
-    const attach = () => {
-      document.querySelectorAll('a, button, [data-cursor-hover]').forEach(el => {
-        el.addEventListener('mouseenter', onEnter);
-        el.addEventListener('mouseleave', onLeave);
-      });
+    const hoverSelector = 'a, button, [data-cursor-hover]';
+    const onMouseOver = (event) => {
+      if (event.target instanceof Element && event.target.closest(hoverSelector)) {
+        setHover();
+      }
+    };
+    const onMouseOut = (event) => {
+      if (!(event.target instanceof Element)) return;
+      if (!event.target.closest(hoverSelector)) return;
+      if (event.relatedTarget instanceof Element && event.relatedTarget.closest(hoverSelector)) return;
+      clearHover();
     };
 
-    attach();
-    const observer = new MutationObserver(attach);
-    observer.observe(document.body, { childList: true, subtree: true });
+    const onWindowBlur = () => {
+      clearHover();
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseover', onMouseOver);
+    document.addEventListener('mouseout', onMouseOut);
+    window.addEventListener('blur', onWindowBlur);
+    animateRing();
 
     return () => {
       document.removeEventListener('mousemove', onMouseMove);
-      observer.disconnect();
+      document.removeEventListener('mouseover', onMouseOver);
+      document.removeEventListener('mouseout', onMouseOut);
+      window.removeEventListener('blur', onWindowBlur);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 

@@ -1,12 +1,13 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import CustomCursor from './components/CustomCursor/CustomCursor';
-import Home from './pages/Home/Home';
-import About from './pages/About/About';
-import Projects from './pages/Projects/Projects';
-import ProjectDetails from './pages/ProjectDetails/ProjectDetails';
+
+const CustomCursor = lazy(() => import('./components/CustomCursor/CustomCursor'));
+const Home = lazy(() => import('./pages/Home/Home'));
+const About = lazy(() => import('./pages/About/About'));
+const Projects = lazy(() => import('./pages/Projects/Projects'));
+const ProjectDetails = lazy(() => import('./pages/ProjectDetails/ProjectDetails'));
 
 
 function ScrollToTop() {
@@ -59,15 +60,19 @@ export default function App() {
 
   return (
     <>
-      <CustomCursor />
+      <Suspense fallback={null}>
+        <CustomCursor />
+      </Suspense>
       <ScrollToTop />
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/projects/:slug" element={<ProjectDetails />} />
-      </Routes>
+      <Header key={`${location.pathname}${location.hash}`} />
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:slug" element={<ProjectDetails />} />
+        </Routes>
+      </Suspense>
       <Footer copy={copy} />
     </>
   );
